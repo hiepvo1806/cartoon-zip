@@ -82,7 +82,7 @@ namespace myCartoonZip
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(279, 22);
             this.textBox1.TabIndex = 1;
-            this.textBox1.TextChanged += new System.EventHandler(this.Search_TextChanged);
+            this.textBox1.TextChanged += new System.EventHandler(this.SearchTextChangedHandler);
             // 
             // button1
             // 
@@ -245,8 +245,8 @@ namespace myCartoonZip
             // 
             // backgroundWorker1
             // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundDoWork);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BackgroundComplete);
             // 
             // Form1
             // 
@@ -269,7 +269,7 @@ namespace myCartoonZip
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "My Cartooon Zip";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.FormLoad);
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).EndInit();
             this.ResumeLayout(false);

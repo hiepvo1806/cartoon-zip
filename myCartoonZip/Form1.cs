@@ -10,6 +10,7 @@ using System.Data;
 using CartoonInterface;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.IO;
 
 namespace myCartoonZip
 {
@@ -18,9 +19,11 @@ namespace myCartoonZip
         private readonly ICartoonService _cartoonService;
         public HomePageModel homePageModel { get; set; }
         public TruyenPageModel truyenPageModel { get; set; }
-        public  List<ListViewItem> OriginalItemList { get; set; }
-        public ILogService _logger;
-        public Form1(ICartoonService cartoonService,ILogService logger)
+        public  List<ListViewItem> view_mangaDisplayList { get; set; }
+        public ILogService<List<ListViewItem>> _logger;
+        private string savedMangaListLocation = $"{Directory.GetCurrentDirectory()}\\saveObj.txt";
+
+        public Form1(ICartoonService cartoonService,ILogService<List<ListViewItem>> logger)
         {
             InitializeComponent();
             _cartoonService = cartoonService;
@@ -28,49 +31,32 @@ namespace myCartoonZip
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void FormLoad(object sender, EventArgs e)
         {
-            
-        }
-        private void ListViewExample()
-        {
-            ListViewItem item1 = new ListViewItem("item1", 0);
-            // Place a check mark next to the item.
-            item1.Checked = true;
-            item1.SubItems.Add("1");
-            item1.SubItems.Add("2");
-            item1.SubItems.Add("3");
-            ListViewItem item2 = new ListViewItem("item2", 1);
-            item2.SubItems.Add("4");
-            item2.SubItems.Add("5");
-            item2.SubItems.Add("6");
-            ListViewItem item3 = new ListViewItem("item3", 0);
-            // Place a check mark next to the item.
-            item3.Checked = true;
-            item3.SubItems.Add("7");
-            item3.SubItems.Add("8");
-            item3.SubItems.Add("9");
-
-            // Create columns for the items and subitems.
-            // Width of -2 indicates auto-size.
-            listView1.Columns.Add("Item Column", -2, HorizontalAlignment.Left);
-            listView1.Columns.Add("Column 2", -2, HorizontalAlignment.Left);
-            listView1.Columns.Add("Column 3", -2, HorizontalAlignment.Left);
-            listView1.Columns.Add("Column 4", -2, HorizontalAlignment.Center);
-
-            //Add the items to the ListView.
-            listView1.Items.AddRange(new ListViewItem[] { item1, item2, item3 });
+            view_mangaDisplayList = _logger.GetObjectFromFile(savedMangaListLocation);
+            SetListManga(view_mangaDisplayList);
         }
 
-        private void SelectUrlToSaveChaps(object sender, EventArgs e)
+        private void LoadButtonFromURLHanlder(object sender, EventArgs e)
         {
-            DialogResult result = folderBrowserDialog1.ShowDialog();
-            if (result == DialogResult.OK)
+            var url = @"http://truyentranhtuan.com/danh-sach-truyen/";
+            view_mangaDisplayList = new List<ListViewItem>();
+            homePageModel = _cartoonService.ParseMainPageContent(url);
+            var homePageModelProps = typeof(TruyenHomePageModel).GetProperties().OrderBy(o => o.Name).Where(q => q.Name != "TenTruyen").ToList();
+            homePageModel.DanhSachTruyenMain.ForEach(x =>
             {
-                this.textBox2.Text = folderBrowserDialog1.SelectedPath;
-            }
-
+                var addedItem = new ListViewItem(x.TenTruyen, 0);
+                homePageModelProps.ForEach(i => {
+                    var val = i.GetValue(x, null).ToString();
+                    addedItem.SubItems.Add(val);
+                });
+                view_mangaDisplayList.Add(addedItem);
+                this.listView1.Items.Add(addedItem);
+            });
+            view_mangaDisplayList = view_mangaDisplayList.ToList();
+            _logger.SaveObjectToFile(savedMangaListLocation, view_mangaDisplayList);
         }
+        
 
         private void LoadChaptersHandler(object sender, EventArgs e)
         {
@@ -126,8 +112,8 @@ namespace myCartoonZip
                         var saveDir = locationOnDisk + '\\' + selectedTruyen.SubItems[0].Text.Replace(":","_");
                         System.IO.Directory.CreateDirectory(saveDir);
                         BackgroundWorker worker = new BackgroundWorker();
-                        worker.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
-                        worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);
+                        worker.DoWork += new DoWorkEventHandler(BackgroundDoWork);
+                        worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(BackgroundComplete);
                         worker.RunWorkerAsync(new TruyenObj()
                         {
                             saveDir = saveDir,
@@ -143,10 +129,28 @@ namespace myCartoonZip
                 }
             }
         }
+        private void SearchTextChangedHandler(object sender, EventArgs e)
+        {
+            SetListManga(view_mangaDisplayList);
+        }
+        private void SelectUrlToSaveChaps(object sender, EventArgs e)
+        {
+            DialogResult result = folderBrowserDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                this.textBox2.Text = folderBrowserDialog1.SelectedPath;
+            }
 
+        }
 
+        private void SetListManga(List<ListViewItem> mangaList)
+        {
+            var searchText = textBox1.Text;
+            this.listView1.Items.Clear();
+            this.listView1.Items.AddRange(mangaList.Where(q => q.Text.ToLower().Contains(searchText)).ToArray());
+        }
 
-        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private void BackgroundDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             TruyenObj argumentTest = e.Argument as TruyenObj;
             e.Result = new {
@@ -156,7 +160,7 @@ namespace myCartoonZip
             };
         }
 
-        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        private void BackgroundComplete(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             var result = (dynamic)e.Result;
             if (string.IsNullOrEmpty((string)result.result))
@@ -169,31 +173,6 @@ namespace myCartoonZip
             }
         }
 
-        private void Search_TextChanged(object sender, EventArgs e)
-        {
-            var searchText = textBox1.Text;
-            this.listView1.Items.Clear();
-            this.listView1.Items.AddRange(OriginalItemList.Where(q=>q.Text.ToLower().Contains(searchText)).ToArray());
-        }
-
-        private void LoadButtonFromURLHanlder(object sender, EventArgs e)
-        {
-            var url = @"http://truyentranhtuan.com/danh-sach-truyen/";
-            OriginalItemList = new List<ListViewItem>();
-            homePageModel = _cartoonService.ParseMainPageContent(url);
-            var homePageModelProps = typeof(TruyenHomePageModel).GetProperties().OrderBy(o => o.Name).Where(q => q.Name != "TenTruyen").ToList();
-            homePageModel.DanhSachTruyenMain.ForEach(x =>
-            {
-                var addedItem = new ListViewItem(x.TenTruyen, 0);
-                homePageModelProps.ForEach(i => {
-                    var val = i.GetValue(x, null).ToString();
-                    addedItem.SubItems.Add(val);
-                });
-                OriginalItemList.Add(addedItem);
-                this.listView1.Items.Add(addedItem);
-            });
-            OriginalItemList = OriginalItemList.ToList();
-        }
     }
 }
 

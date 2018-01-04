@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace NewCartoonInterfaces
 {
-    public interface ILogService
+    public interface ILogService<T>
     {
         void WriteCurrentLog(string content);
+        void SaveObjectToFile(string url, T objToSave);
+        T GetObjectFromFile(string url);
     }
 }

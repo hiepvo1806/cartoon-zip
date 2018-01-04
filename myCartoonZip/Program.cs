@@ -24,7 +24,7 @@ namespace myCartoonZip
             using (var scope = builder.Build().BeginLifetimeScope())
             {
                 var cartoonService = scope.Resolve<ICartoonService>();
-                var logService = scope.Resolve<ILogService>();
+                var logService = scope.Resolve<ILogService<List<ListViewItem>>>();
                 //Application.Run(new Form1(cartoonService));
                 Application.Run(new Form1(cartoonService, logService));
             }
@@ -33,7 +33,10 @@ namespace myCartoonZip
         static void RegisterAutofacService(ContainerBuilder builder)
         {
             builder.RegisterType<CartoonService>().As<ICartoonService>();
-            builder.RegisterType<LogService>().As<ILogService>();
+            //builder.RegisterType<LogService>().As<ILogService>();
+            builder
+                .RegisterGeneric(typeof(LogService<>))
+                .As(typeof(ILogService<>));
             //builder.RegisterInstance(new CartoonService()).As<ICartoonService>();
         }
     }
