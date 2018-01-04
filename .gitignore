@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 
 Mirror/NFT.Web.root/ReferenceLibraries
+*.resx

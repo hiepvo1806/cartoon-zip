@@ -24,14 +24,16 @@ namespace myCartoonZip
             using (var scope = builder.Build().BeginLifetimeScope())
             {
                 var cartoonService = scope.Resolve<ICartoonService>();
+                var logService = scope.Resolve<ILogService>();
                 //Application.Run(new Form1(cartoonService));
-                Application.Run(new Form1(new CartoonService()));
+                Application.Run(new Form1(cartoonService, logService));
             }
         }
 
         static void RegisterAutofacService(ContainerBuilder builder)
         {
             builder.RegisterType<CartoonService>().As<ICartoonService>();
+            builder.RegisterType<LogService>().As<ILogService>();
             //builder.RegisterInstance(new CartoonService()).As<ICartoonService>();
         }
     }

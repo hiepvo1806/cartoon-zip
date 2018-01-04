@@ -19,34 +19,18 @@ namespace myCartoonZip
         public HomePageModel homePageModel { get; set; }
         public TruyenPageModel truyenPageModel { get; set; }
         public  List<ListViewItem> OriginalItemList { get; set; }
-        public Form1(ICartoonService cartoonService)
+        public ILogService _logger;
+        public Form1(ICartoonService cartoonService,ILogService logger)
         {
             InitializeComponent();
             _cartoonService = cartoonService;
+            _logger = logger;
 
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            var url = @"http://truyentranhtuan.com/danh-sach-truyen/";
-            OriginalItemList = new List<ListViewItem>();
-            homePageModel = _cartoonService.ParseMainPageContent(url);
-            var homePageModelProps = typeof(TruyenHomePageModel).GetProperties().OrderBy(o => o.Name).Where(q => q.Name != "TenTruyen").ToList();
-            homePageModel.DanhSachTruyenMain.ForEach(x =>
-            {
-                var addedItem = new ListViewItem(x.TenTruyen, 0);
-                homePageModelProps.ForEach(i => {
-                    var val = i.GetValue(x, null).ToString();
-                    addedItem.SubItems.Add(val);
-                });
-                //this.listView1.Items.AddRange(new ListViewItem[] {
-                //     addedItem
-                //});
-                OriginalItemList.Add(addedItem);
-                this.listView1.Items.Add(addedItem);
-            });
-            OriginalItemList = OriginalItemList.ToList();
-            //this.listView1.Items = OriginalItemList;
+            
         }
         private void ListViewExample()
         {
@@ -78,9 +62,8 @@ namespace myCartoonZip
             listView1.Items.AddRange(new ListViewItem[] { item1, item2, item3 });
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void SelectUrlToSaveChaps(object sender, EventArgs e)
         {
-
             DialogResult result = folderBrowserDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -89,7 +72,7 @@ namespace myCartoonZip
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void LoadChaptersHandler(object sender, EventArgs e)
         {
             if (this.listView1.SelectedItems.Count == 0)
             {
@@ -123,15 +106,13 @@ namespace myCartoonZip
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void DownloadChaptersHandler(object sender, EventArgs e)
         {
             this.richTextBox1.Text = "Begin download";
-            
-
             var locationOnDisk = this.textBox2.Text;
             if (string.IsNullOrEmpty(locationOnDisk) || this.listView2.SelectedItems.Count == 0)
             {
-                MessageBox.Show(string.IsNullOrEmpty(locationOnDisk) ? "Empty locationOnDisk" : "No selected truyen", "Error",
+                MessageBox.Show(string.IsNullOrEmpty(locationOnDisk) ? "Empty Save Directory" : "Please select Manga to Download", "Error",
                            MessageBoxButtons.OK);
             }
             else
@@ -153,14 +134,6 @@ namespace myCartoonZip
                             url = url,
                             selectedTruyen = selectedTruyen
                         });
-                       
-
-
-                        //backgroundWorker1.RunWorkerAsync(new TruyenObj()
-                        //{
-                        //    saveDir = saveDir,
-                        //    url = url
-                        //});
                     }
                 }
                 catch (Exception ex)
@@ -169,7 +142,6 @@ namespace myCartoonZip
                             MessageBoxButtons.OK);
                 }
             }
-
         }
 
 
@@ -197,11 +169,30 @@ namespace myCartoonZip
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void Search_TextChanged(object sender, EventArgs e)
         {
             var searchText = textBox1.Text;
             this.listView1.Items.Clear();
             this.listView1.Items.AddRange(OriginalItemList.Where(q=>q.Text.ToLower().Contains(searchText)).ToArray());
+        }
+
+        private void LoadButtonFromURLHanlder(object sender, EventArgs e)
+        {
+            var url = @"http://truyentranhtuan.com/danh-sach-truyen/";
+            OriginalItemList = new List<ListViewItem>();
+            homePageModel = _cartoonService.ParseMainPageContent(url);
+            var homePageModelProps = typeof(TruyenHomePageModel).GetProperties().OrderBy(o => o.Name).Where(q => q.Name != "TenTruyen").ToList();
+            homePageModel.DanhSachTruyenMain.ForEach(x =>
+            {
+                var addedItem = new ListViewItem(x.TenTruyen, 0);
+                homePageModelProps.ForEach(i => {
+                    var val = i.GetValue(x, null).ToString();
+                    addedItem.SubItems.Add(val);
+                });
+                OriginalItemList.Add(addedItem);
+                this.listView1.Items.Add(addedItem);
+            });
+            OriginalItemList = OriginalItemList.ToList();
         }
     }
 }
