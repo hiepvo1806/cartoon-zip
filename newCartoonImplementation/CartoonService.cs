@@ -82,79 +82,93 @@ namespace newCartoonImplementation
             using (WebClient client = new WebClient())
             {
                 string downloadString = client.DownloadString(url);
-                var beginStrings = new[]
-                {
-                    "var slides_page_url_path = [",
-                    "var slides_page_path = ["
-                };
-
-                //var beginString = "var slides_page_url_path = [";
-                //var a = downloadString.IndexOf(beginString);
-                //var b = downloadString.Remove(0, a + beginString.Length);
-                //string c="";
-
-                //try
-                //{
-                //    c = b.Remove(b.IndexOf("\"]"));
-                //}
-                //catch {
-                //    beginString = "var slides_page_path = [";
-                //    a = downloadString.IndexOf(beginString);
-                //    b = downloadString.Remove(0, a + beginString.Length);
-                //    c = b.Remove(b.IndexOf("\"]"));
-                //}
-                int a = 0;
-                string b = "";
-                string c = "";
                 var allLink = new List<string>();
-                var beginString = beginStrings[0];
-                try
-                {
-                    allLink = new List<string>();
-                    a = downloadString.IndexOf(beginString);
-                     b = downloadString.Remove(0, a + beginString.Length);
-                     c = b.Remove(b.IndexOf("\"]"));
-                    var firstLink =  c.Split(',').ToList().First().Trim(',', '\"');
-                    var fileName = firstLink.Split('/').Last();
-                    client.DownloadFile(new Uri(firstLink),
-                        $@"{locationOnDisk}\{fileName.Split(' ', '?', '/').First()}");
-                    File.Delete($@"{locationOnDisk}\{fileName.Split(' ', '?', '/').First()}");
-                }
-                catch
-                {
-                    allLink = new List<string>();
-                    beginString = beginStrings[1];
-                    a = downloadString.IndexOf(beginString);
-                    b = downloadString.Remove(0, a + beginString.Length);
-                    c = b.Remove(b.IndexOf("\"]"));
-                }
 
-                c.Split(',').ToList().ForEach(q => allLink.Add(q.Trim(',', '\"')));
-                var duplicateFile = allLink.Select(s => s.Split('/').Last()).GroupBy(s => s).Any(s => s.Count() > 1);
-                for (var i = 0;i< allLink.Count; i++)
+                var parseResultType1 = RenderType1(downloadString)
+                    .Split(',')
+                    .Select(s=> s.Trim(',', '\"')).ToArray();
+                var parseResultType2 = RenderType2(downloadString)
+                    .Split(',')
+                    .Select(s => s.Trim(',', '\"')).ToArray();
+
+                var duplicateFile = parseResultType1
+                        .Select(s => s.Split('/').Last())
+                        .GroupBy(s => s).Any(s => s.Count() > 1);
+
+                for (var i = 0; i < Math.Max(parseResultType1.Length, parseResultType2.Length); i++)
                 {
-                    try
+                    string link;
+                    var isDownloaded = false;
+                    var downloadTry = 0;
+                    link = parseResultType1[i];
+                    while (!isDownloaded && downloadTry<2)
                     {
-                        var fileName = allLink[i].Split('/').Last();
-                        var locationFile = string.Format(@"{0}\{1}", locationOnDisk,
-                            fileName.Split(' ', '?', '/').First());
-                        if(duplicateFile) {
-                            locationFile = string.Format(@"{0}\{1}_{2}", locationOnDisk,
-                            i,fileName.Split(' ', '?', '/').First());
-                        }
-                        client.DownloadFile(new Uri(allLink[i]), locationFile);
-                    }
-                    catch(Exception e) {
-                        if (duplicateFile) fileError = "DUPLICATE FILE FOUND \r\n" + fileError;
-                        fileError += ","+ i;
-                        //throw e;
-                    }
-                }
-                if (duplicateFile) fileError = "DUPLICATE FILE FOUND \r\n" + fileError;
+                        string fileName = "";
+                        try
+                        {
+                            fileName = link.Split('/').Last();
+                            var location =
+                                duplicateFile == false ?
+                                string.Format(@"{0}\{1}", locationOnDisk,
+                                    fileName.Split(' ', '?', '/').First())
+                                : string.Format(@"{0}\{1}_{2}", locationOnDisk,
+                                i, fileName.Split(' ', '?', '/').First());
 
+                            client.DownloadFile(new Uri(link),
+                                $@"{locationOnDisk}\{fileName.Split(' ', '?', '/').First()}");
+                            isDownloaded = true;
+                        }
+                        catch
+                        {
+                            link = parseResultType2.FirstOrDefault(s=>s.IndexOf(fileName) !=-1);
+                            if(string.IsNullOrEmpty(link))
+                            {
+                                downloadTry = 1;
+                                fileError = "null link in parse 2 \r\n" + fileError;
+                            }
+                            downloadTry++;
+                        }
+                    }
+                    if (downloadTry == 2) fileError = "Try twice \r\n" + fileError;
+                }
             }
             
             return string.IsNullOrEmpty( fileError) ? fileError : "Error in these pic:" + fileError;
+        }
+
+        private string RenderType1 (string inputFullHtml)
+        {
+            try
+            {
+                //var beginString = "var slides_page_url_path = [";
+                var beginString = "var slides_page_path = [";
+                var a = inputFullHtml.IndexOf(beginString);
+                var b = inputFullHtml.Remove(0, a + beginString.Length);
+                return b.Remove(b.IndexOf("\"]"));
+            }
+            catch
+            {
+                return "";
+            }
+
+          
+        }
+
+        private string RenderType2(string inputFullHtml)
+        {
+            try
+            {
+                var beginString = "var slides_page_url_path = [";
+                //var beginString = "var slides_page_path = [";
+                var a = inputFullHtml.IndexOf(beginString);
+                var b = inputFullHtml.Remove(0, a + beginString.Length);
+                return b.Remove(b.IndexOf("\"]"));
+            }
+            catch
+            {
+                return "";
+            }
+
         }
 
     }

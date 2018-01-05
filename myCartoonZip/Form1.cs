@@ -110,7 +110,7 @@ namespace myCartoonZip
                     {
                         var url = selectedTruyen.SubItems[1].Text;
                         var saveDir = locationOnDisk + '\\' + selectedTruyen.SubItems[0].Text.Replace(":","_");
-                        System.IO.Directory.CreateDirectory(saveDir);
+                        Directory.CreateDirectory(saveDir);
                         BackgroundWorker worker = new BackgroundWorker();
                         worker.DoWork += new DoWorkEventHandler(BackgroundDoWork);
                         worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(BackgroundComplete);
@@ -150,17 +150,17 @@ namespace myCartoonZip
             this.listView1.Items.AddRange(mangaList.Where(q => q.Text.ToLower().Contains(searchText)).ToArray());
         }
 
-        private void BackgroundDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private void BackgroundDoWork(object sender, DoWorkEventArgs e)
         {
-            TruyenObj argumentTest = e.Argument as TruyenObj;
+            TruyenObj inputManga = e.Argument as TruyenObj;
             e.Result = new {
-                result = _cartoonService.DownloadTruyen(argumentTest.saveDir, argumentTest.url),
-                chuong = ((string)argumentTest.url).Remove(argumentTest.url.Length - 1).Split('/').Last(),
-                selectTruyen = argumentTest.selectedTruyen
+                result = _cartoonService.DownloadTruyen(inputManga.saveDir, inputManga.url),
+                chuong = ((string)inputManga.url).Remove(inputManga.url.Length - 1).Split('/').Last(),
+                selectTruyen = inputManga.selectedTruyen
             };
         }
 
-        private void BackgroundComplete(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        private void BackgroundComplete(object sender, RunWorkerCompletedEventArgs e)
         {
             var result = (dynamic)e.Result;
             if (string.IsNullOrEmpty((string)result.result))
