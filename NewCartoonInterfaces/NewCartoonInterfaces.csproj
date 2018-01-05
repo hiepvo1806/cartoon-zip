@@ -41,8 +41,8 @@
   <ItemGroup>
     <Compile Include="ICartoonService.cs" />
     <Compile Include="ILogService.cs" />
-    <Compile Include="Model\HomePageModel.cs" />
-    <Compile Include="Model\TruyenHomePageModel.cs" />
+    <Compile Include="Model\Site.cs" />
+    <Compile Include="Model\Manga.cs" />
     <Compile Include="Model\TruyenPageModel.cs" />
   </ItemGroup>
   <ItemGroup>

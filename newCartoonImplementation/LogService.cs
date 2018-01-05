@@ -10,6 +10,7 @@ namespace newCartoonImplementation
 {
     public class LogService<T> : ILogService<T> where T:new()
     {
+        private Object thisLock = new Object();
         public T GetObjectFromFile(string url)
         {
             T result;
@@ -37,20 +38,32 @@ namespace newCartoonImplementation
             }
         }
 
-        public async void WriteCurrentLog(string content)
+        public void WriteCurrentLog(string content,string fileName = "")
         {
-            string logFileName = $"{DateTime.Now.ToString(@"dd-MM-yyyy_HH-mm")}.txt";
-            if (!File.Exists(logFileName))
-                File.Create(logFileName);
-            string currentContent = "";
-            using (var reader = new StreamReader(logFileName))
+            lock (thisLock)
             {
-                currentContent = await reader.ReadToEndAsync();
-            }
-            currentContent = $"{currentContent} \r\n{content}";
-            using (var writer = new StreamWriter(logFileName))
-            {
-                await writer.WriteAsync(content);
+                string logFileName = $"{fileName}{DateTime.Now.ToString(@"dd-MM-yyyy_HH-mm")}.txt";
+                FileStream fs;
+                if (!File.Exists(logFileName))
+                {
+                    fs = File.Create(logFileName);
+                }
+                else fs = File.OpenRead(logFileName);
+
+                string currentContent = "";
+                using (var reader = new StreamReader(fs))
+                {
+                    currentContent = reader.ReadToEnd();
+                    reader.Close();
+                }
+                currentContent = $"{currentContent} \r\n{content}";
+                using (var writer = new StreamWriter(logFileName))
+                {
+                    writer.Write(content);
+                    writer.Close();
+                }
+                fs.Close();
+
             }
         }
     }

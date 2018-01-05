@@ -12,14 +12,19 @@ namespace newCartoonImplementation
 {
     public class CartoonService : ICartoonService
     {
-        public HomePageModel GetPageContent(string url)
+        private ILogService<Site> _logger;
+        public CartoonService(ILogService<Site> logService)
+        {
+            _logger = logService;
+        }
+        public Site GetPageContent(string url)
         {
             //get the page
             var web = new HtmlWeb();
             var document = web.Load(url);
             var page = document.DocumentNode;
-            var result = new HomePageModel();
-            result.DanhSachTruyenMain = new List<TruyenHomePageModel>();
+            var result = new Site();
+            result.MangaList = new List<Manga>();
 
             var newChapterSection = page.SelectNodes("//div[contains(@id, 'new-chapter')]").First();
             var resultWriteToLog = new List<string>();
@@ -34,23 +39,24 @@ namespace newCartoonImplementation
 
                 var ngayCapNhatNode = parentDiv.ChildNodes.Where(q => q.Attributes.Any(a => a.Name == "class" && a.Value == "current-date")).First(); 
                 var ngayCapNhat = ngayCapNhatNode.InnerText.Trim(' ', '\r', '\n');
-                result.DanhSachTruyenMain.Add(new TruyenHomePageModel
+                result.MangaList.Add(new Manga
                 {
-                    TenTruyen = tenTruyen,
+                    Name = tenTruyen,
                     Url = truyenUrl,
-                    ChuongMoiNhat = chuongMoiNhat,
-                    NgayCapNhat = ngayCapNhat
+                    LastedChapterName = chuongMoiNhat,
+                    ModifiedDate = ngayCapNhat
                 });
                 var logText = string.Format("{0}\t{1}",
                     tenTruyen,
                     truyenUrl);
                 resultWriteToLog.Add(logText);
             }
-            File.WriteAllText(@"E:\WriteText.txt", string.Join("\r\n", resultWriteToLog));
+            //File.WriteAllText(@"E:\WriteText.txt", string.Join("\r\n", resultWriteToLog));
+            _logger.WriteCurrentLog(string.Join("\r\n", resultWriteToLog),"log_");
             return result;
         }
 
-        public HomePageModel ParseMainPageContent(string url)
+        public Site ParseMainPageContent(string url)
         {
             return GetPageContent(url);
         }
@@ -66,7 +72,7 @@ namespace newCartoonImplementation
             {
                 var tenChuong = item.InnerText.Trim(' ', '\r', '\n');
                 var chuongUrl = item.ChildNodes.FirstOrDefault(q=>q.Name=="a").Attributes[0].Value;
-                result.DanhSachChuong.Add(new PersonalTruyen
+                result.ChapterList.Add(new Chapter
                 {
                     TenChuong = tenChuong,
                     ChuongUrl = chuongUrl,

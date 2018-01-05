@@ -17,9 +17,9 @@ namespace myCartoonZip
     public partial class Form1 : Form
     {
         private readonly ICartoonService _cartoonService;
-        public HomePageModel homePageModel { get; set; }
+        public Site homePageViewModel { get; set; }
         public TruyenPageModel truyenPageModel { get; set; }
-        public  List<ListViewItem> view_mangaDisplayList { get; set; }
+        public  List<ListViewItem> mainViewMangaListModel { get; set; }
         public ILogService<List<ListViewItem>> _logger;
         private string savedMangaListLocation = $"{Directory.GetCurrentDirectory()}\\saveObj.txt";
 
@@ -33,28 +33,31 @@ namespace myCartoonZip
 
         private void FormLoad(object sender, EventArgs e)
         {
-            view_mangaDisplayList = _logger.GetObjectFromFile(savedMangaListLocation);
-            SetListManga(view_mangaDisplayList);
+            mainViewMangaListModel = _logger.GetObjectFromFile(savedMangaListLocation);
+            SetListMangaToView(mainViewMangaListModel);
         }
 
         private void LoadButtonFromURLHanlder(object sender, EventArgs e)
         {
             var url = @"http://truyentranhtuan.com/danh-sach-truyen/";
-            view_mangaDisplayList = new List<ListViewItem>();
-            homePageModel = _cartoonService.ParseMainPageContent(url);
-            var homePageModelProps = typeof(TruyenHomePageModel).GetProperties().OrderBy(o => o.Name).Where(q => q.Name != "TenTruyen").ToList();
-            homePageModel.DanhSachTruyenMain.ForEach(x =>
+            mainViewMangaListModel = new List<ListViewItem>();
+            homePageViewModel = _cartoonService.ParseMainPageContent(url);
+            var homePageModelProps = typeof(Manga).GetProperties().OrderBy(o => o.Name).Where(q => q.Name != "Name").ToList();
+            homePageViewModel.MangaList.ForEach(x =>
             {
-                var addedItem = new ListViewItem(x.TenTruyen, 0);
+                var addedItem = new ListViewItem(x.Name, 0);
                 homePageModelProps.ForEach(i => {
-                    var val = i.GetValue(x, null).ToString();
-                    addedItem.SubItems.Add(val);
+                    var val = i.GetValue(x, null);
+                    if (val != null) {
+                        addedItem.SubItems.Add(val.ToString());
+                    }  
+                    
                 });
-                view_mangaDisplayList.Add(addedItem);
-                this.listView1.Items.Add(addedItem);
+                mainViewMangaListModel.Add(addedItem);
+                
             });
-            view_mangaDisplayList = view_mangaDisplayList.ToList();
-            _logger.SaveObjectToFile(savedMangaListLocation, view_mangaDisplayList);
+            SetListMangaToView(mainViewMangaListModel);
+            _logger.SaveObjectToFile(savedMangaListLocation, mainViewMangaListModel);
         }
         
 
@@ -74,10 +77,10 @@ namespace myCartoonZip
                 }
                 var url = selectedTruyen.SubItems[3].Text;
                 truyenPageModel = _cartoonService.ParsePersonalPage(url);
-                var truyenPageProp = typeof(PersonalTruyen)
+                var truyenPageProp = typeof(Chapter)
                     .GetProperties().OrderBy(o => o.Name)
                     .Where(q => q.Name != "TenChuong").ToList();
-                truyenPageModel.DanhSachChuong.ForEach(x =>
+                truyenPageModel.ChapterList.ForEach(x =>
                 {
                     var addedItem = new ListViewItem(x.TenChuong, 0);
                     truyenPageProp.ForEach(i =>
@@ -131,7 +134,7 @@ namespace myCartoonZip
         }
         private void SearchTextChangedHandler(object sender, EventArgs e)
         {
-            SetListManga(view_mangaDisplayList);
+            SetListMangaToView(mainViewMangaListModel);
         }
         private void SelectUrlToSaveChaps(object sender, EventArgs e)
         {
@@ -143,7 +146,7 @@ namespace myCartoonZip
 
         }
 
-        private void SetListManga(List<ListViewItem> mangaList)
+        private void SetListMangaToView(List<ListViewItem> mangaList)
         {
             var searchText = textBox1.Text;
             this.listView1.Items.Clear();

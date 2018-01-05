@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 using newCartoonImplementation;
 using NewCartoonInterfaces;
 using System;
@@ -19,12 +20,21 @@ namespace myCartoonZip
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            IServiceCollection serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection);
+            var sp = serviceCollection.BuildServiceProvider();
+
             var builder = new ContainerBuilder();
+
             RegisterAutofacService(builder);
             using (var scope = builder.Build().BeginLifetimeScope())
             {
-                var cartoonService = scope.Resolve<ICartoonService>();
-                var logService = scope.Resolve<ILogService<List<ListViewItem>>>();
+                var cartoonService = sp.GetService<ICartoonService>();
+
+
+                //var logService = scope.Resolve<ILogService<List<ListViewItem>>>();
+                var logService = sp.GetService<ILogService<List<ListViewItem>>>();
                 //Application.Run(new Form1(cartoonService));
                 Application.Run(new Form1(cartoonService, logService));
             }
@@ -32,12 +42,24 @@ namespace myCartoonZip
 
         static void RegisterAutofacService(ContainerBuilder builder)
         {
-            builder.RegisterType<CartoonService>().As<ICartoonService>();
-            //builder.RegisterType<LogService>().As<ILogService>();
-            builder
-                .RegisterGeneric(typeof(LogService<>))
-                .As(typeof(ILogService<>));
-            //builder.RegisterInstance(new CartoonService()).As<ICartoonService>();
+            
+            ////builder.RegisterType<LogService>().As<ILogService>();
+            //builder
+            //    .RegisterGeneric(typeof(LogService<>))
+            //    .As(typeof(ILogService<>))
+            //    .InstancePerLifetimeScope();
+            ////builder.RegisterInstance(new CartoonService()).As<ICartoonService>();
+
+
+            //builder.RegisterType<CartoonService>().As<ICartoonService>();
+            
+        }
+
+
+        static private void ConfigureServices(IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddSingleton(typeof(ILogService<>), typeof(LogService<>));
+            serviceCollection.AddSingleton<ICartoonService, CartoonService>();
         }
     }
 }

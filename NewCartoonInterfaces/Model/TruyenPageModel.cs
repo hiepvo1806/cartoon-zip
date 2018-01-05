@@ -11,13 +11,13 @@ namespace CartoonInterface
         public byte[] MainPicture { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<PersonalTruyen> DanhSachChuong { get; set; }
+        public List<Chapter> ChapterList { get; set; }
         public TruyenPageModel() {
-            DanhSachChuong = new List<PersonalTruyen>();
+            ChapterList = new List<Chapter>();
         }
     }
 
-    public class PersonalTruyen
+    public class Chapter
     {
         public string TenChuong { get; set; }
         public string NgayCapNhat { get; set; }
