@@ -22,7 +22,7 @@ namespace newCartoonImplementation
                     result = ((T)bformatter.Deserialize(stream));
                 }
             }
-            catch(Exception e)
+            catch
             {
                 result = new T();
             }

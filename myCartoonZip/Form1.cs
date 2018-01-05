@@ -1,14 +1,10 @@
-﻿using newCartoonImplementation;
-using NewCartoonInterfaces;
+﻿using NewCartoonInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
-using myCartoonZip.ViewModel;
 using NewCartoonInterfaces.Model;
 using System.Data;
-using CartoonInterface;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.IO;
 
@@ -18,7 +14,7 @@ namespace myCartoonZip
     {
         private readonly ICartoonService _cartoonService;
         public Site homePageViewModel { get; set; }
-        public TruyenPageModel truyenPageModel { get; set; }
+        public Manga truyenPageModel { get; set; }
         public  List<ListViewItem> mainViewMangaListModel { get; set; }
         public ILogService<List<ListViewItem>> _logger;
         private string savedMangaListLocation = $"{Directory.GetCurrentDirectory()}\\saveObj.txt";
@@ -76,13 +72,13 @@ namespace myCartoonZip
                     this.listView2.Items.Remove(i);
                 }
                 var url = selectedTruyen.SubItems[3].Text;
-                truyenPageModel = _cartoonService.ParsePersonalPage(url);
+                truyenPageModel = _cartoonService.ParseChapterPage(url);
                 var truyenPageProp = typeof(Chapter)
                     .GetProperties().OrderBy(o => o.Name)
-                    .Where(q => q.Name != "TenChuong").ToList();
+                    .Where(q => q.Name != "Name").ToList();
                 truyenPageModel.ChapterList.ForEach(x =>
                 {
-                    var addedItem = new ListViewItem(x.TenChuong, 0);
+                    var addedItem = new ListViewItem(x.Name, 0);
                     truyenPageProp.ForEach(i =>
                     {
                         var val = i.GetValue(x, null).ToString();

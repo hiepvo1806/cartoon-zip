@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
-using CartoonInterface;
 using HtmlAgilityPack;
 using NewCartoonInterfaces;
 using NewCartoonInterfaces.Model;
@@ -60,12 +58,12 @@ namespace newCartoonImplementation
         {
             return GetPageContent(url);
         }
-        public TruyenPageModel ParsePersonalPage(string url)
+        public Manga ParseChapterPage(string url)
         {
             var web = new HtmlWeb();
             var document = web.Load(url);
             var page = document.DocumentNode;
-            var result = new TruyenPageModel();
+            var result = new Manga();
             //manga-chapter
             var chapters = page.SelectNodes("//div[contains(@id, 'manga-chapter')]").First();
             foreach (var item in chapters.SelectNodes("//span[contains(@class, 'chapter-name')]"))
@@ -74,9 +72,9 @@ namespace newCartoonImplementation
                 var chuongUrl = item.ChildNodes.FirstOrDefault(q=>q.Name=="a").Attributes[0].Value;
                 result.ChapterList.Add(new Chapter
                 {
-                    TenChuong = tenChuong,
-                    ChuongUrl = chuongUrl,
-                    NgayCapNhat = ""
+                    Name = tenChuong,
+                    ChapterUrl = chuongUrl,
+                    ModifiedDate = ""
                 });
             }
             return result;

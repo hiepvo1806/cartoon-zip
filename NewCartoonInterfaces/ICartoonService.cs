@@ -6,7 +6,7 @@ namespace NewCartoonInterfaces
     public interface ICartoonService
     {
         Site ParseMainPageContent(string url);
-        TruyenPageModel ParsePersonalPage(string url);
+        Manga ParseChapterPage(string url);
         string DownloadTruyen(string locationOnDisk,string url);
     }
 }
