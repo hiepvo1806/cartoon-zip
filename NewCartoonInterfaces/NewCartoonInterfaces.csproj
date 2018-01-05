@@ -43,7 +43,6 @@
     <Compile Include="ILogService.cs" />
     <Compile Include="Model\Site.cs" />
     <Compile Include="Model\Manga.cs" />
-    <Compile Include="Model\TruyenPageModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">

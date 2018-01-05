@@ -1,5 +1,4 @@
-﻿using CartoonInterface;
-using NewCartoonInterfaces.Model;
+﻿using NewCartoonInterfaces.Model;
 
 namespace NewCartoonInterfaces
 {
