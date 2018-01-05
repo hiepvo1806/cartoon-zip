@@ -15,9 +15,10 @@ namespace newCartoonImplementation
         {
             _logger = logService;
         }
-        public Site GetPageContent(string url)
+
+        //Main HomePage Content 
+        public Site ParseMainPageContent(string url)
         {
-            //get the page
             var web = new HtmlWeb();
             var document = web.Load(url);
             var page = document.DocumentNode;
@@ -29,58 +30,55 @@ namespace newCartoonImplementation
             foreach (var item in newChapterSection.SelectNodes("//span[contains(@class, 'manga')]"))
             {
                 var parentDiv = item.ParentNode;
-                var tenTruyen = item.InnerText.Trim(' ');
-                var truyenUrl = item.FirstChild.Attributes[0].Value;
+                var mangaName = item.InnerText.Trim(' ');
+                var mangaUrl = item.FirstChild.Attributes[0].Value;
 
-                var chuongMoiNhatNode = parentDiv.ChildNodes.Where(q => q.Attributes.Any(a => a.Name == "class" && a.Value == "chapter")).First();
-                var chuongMoiNhat = chuongMoiNhatNode.InnerText.Trim(' ', '\r', '\n');
+                var lastestChapterElement = parentDiv.ChildNodes.Where(q => q.Attributes.Any(a => a.Name == "class" && a.Value == "chapter")).First();
+                var lastestChapterName = lastestChapterElement.InnerText.Trim(' ', '\r', '\n');
 
-                var ngayCapNhatNode = parentDiv.ChildNodes.Where(q => q.Attributes.Any(a => a.Name == "class" && a.Value == "current-date")).First(); 
-                var ngayCapNhat = ngayCapNhatNode.InnerText.Trim(' ', '\r', '\n');
+                var uploadDateNode = parentDiv.ChildNodes.Where(q => q.Attributes.Any(a => a.Name == "class" && a.Value == "current-date")).First();
+                var uploadDate = uploadDateNode.InnerText.Trim(' ', '\r', '\n');
                 result.MangaList.Add(new Manga
                 {
-                    Name = tenTruyen,
-                    Url = truyenUrl,
-                    LastedChapterName = chuongMoiNhat,
-                    ModifiedDate = ngayCapNhat
+                    Name = mangaName,
+                    Url = mangaUrl,
+                    LastedChapterName = lastestChapterName,
+                    ModifiedDate = uploadDate
                 });
+
+                //logging
                 var logText = string.Format("{0}\t{1}",
-                    tenTruyen,
-                    truyenUrl);
+                    mangaName,
+                    mangaUrl);
                 resultWriteToLog.Add(logText);
             }
-            //File.WriteAllText(@"E:\WriteText.txt", string.Join("\r\n", resultWriteToLog));
-            _logger.WriteCurrentLog(string.Join("\r\n", resultWriteToLog),"log_");
+            _logger.WriteCurrentLog(string.Join("\r\n", resultWriteToLog), "log_");
             return result;
         }
 
-        public Site ParseMainPageContent(string url)
-        {
-            return GetPageContent(url);
-        }
+        //Chapter page of each manga Mainpage>pick manga>chapter + manga detail
         public Manga ParseChapterPage(string url)
         {
             var web = new HtmlWeb();
             var document = web.Load(url);
             var page = document.DocumentNode;
             var result = new Manga();
-            //manga-chapter
-            var chapters = page.SelectNodes("//div[contains(@id, 'manga-chapter')]").First();
-            foreach (var item in chapters.SelectNodes("//span[contains(@class, 'chapter-name')]"))
+            var allChapterElements = page.SelectNodes("//div[contains(@id, 'manga-chapter')]").First();
+            foreach (var chapterElement in allChapterElements.SelectNodes("//span[contains(@class, 'chapter-name')]"))
             {
-                var tenChuong = item.InnerText.Trim(' ', '\r', '\n');
-                var chuongUrl = item.ChildNodes.FirstOrDefault(q=>q.Name=="a").Attributes[0].Value;
+                var chapterName = chapterElement.InnerText.Trim(' ', '\r', '\n');
+                var chapterUrl = chapterElement.ChildNodes.FirstOrDefault(q=>q.Name=="a").Attributes[0].Value;
                 result.ChapterList.Add(new Chapter
                 {
-                    Name = tenChuong,
-                    ChapterUrl = chuongUrl,
+                    Name = chapterName,
+                    ChapterUrl = chapterUrl,
                     ModifiedDate = ""
                 });
             }
             return result;
         }
 
-        public string DownloadTruyen(string locationOnDisk,string url)
+        public string DownloadChapter(string locationOnDisk,string url)
         {
             string fileError = "";
             using (WebClient client = new WebClient())

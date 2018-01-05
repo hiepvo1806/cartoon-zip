@@ -38,7 +38,8 @@ namespace myCartoonZip
             var url = @"http://truyentranhtuan.com/danh-sach-truyen/";
             mainViewMangaListModel = new List<ListViewItem>();
             homePageViewModel = _cartoonService.ParseMainPageContent(url);
-            var homePageModelProps = typeof(Manga).GetProperties().OrderBy(o => o.Name).Where(q => q.Name != "Name").ToList();
+            var homePageModelProps = typeof(Manga)
+                .GetProperties().OrderBy(o => o.Name).Where(q => q.Name != "Name" && q.PropertyType == typeof(string)).ToList();
             homePageViewModel.MangaList.ForEach(x =>
             {
                 var addedItem = new ListViewItem(x.Name, 0);
@@ -86,7 +87,7 @@ namespace myCartoonZip
                     });
                     this.listView2.Items.AddRange(new ListViewItem[] {
                      addedItem
-                });
+                    });
                 });
             }
         }
@@ -153,7 +154,7 @@ namespace myCartoonZip
         {
             TruyenObj inputManga = e.Argument as TruyenObj;
             e.Result = new {
-                result = _cartoonService.DownloadTruyen(inputManga.saveDir, inputManga.url),
+                result = _cartoonService.DownloadChapter(inputManga.saveDir, inputManga.url),
                 chuong = ((string)inputManga.url).Remove(inputManga.url.Length - 1).Split('/').Last(),
                 selectTruyen = inputManga.selectedTruyen
             };

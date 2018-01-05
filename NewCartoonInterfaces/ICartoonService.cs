@@ -7,6 +7,6 @@ namespace NewCartoonInterfaces
     {
         Site ParseMainPageContent(string url);
         Manga ParseChapterPage(string url);
-        string DownloadTruyen(string locationOnDisk,string url);
+        string DownloadChapter(string locationOnDisk,string url);
     }
 }
