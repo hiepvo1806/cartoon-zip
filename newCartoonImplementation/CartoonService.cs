@@ -120,7 +120,7 @@ namespace newCartoonImplementation
                                 $@"{locationOnDisk}\{fileName.Split(' ', '?', '/').First()}");
                             isDownloaded = true;
                         }
-                        catch
+                        catch (Exception e)
                         {
                             link = parseResultType2.FirstOrDefault(s=>s.IndexOf(fileName) !=-1);
                             if(string.IsNullOrEmpty(link))

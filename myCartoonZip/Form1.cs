@@ -16,6 +16,8 @@ namespace myCartoonZip
         public Site homePageViewModel { get; set; }
         public Manga truyenPageModel { get; set; }
         public  List<ListViewItem> mainViewMangaListModel { get; set; }
+        public List<string> DisplayedResult { get; set; }
+
         public ILogService<List<ListViewItem>> _logger;
         private string savedMangaListLocation = $"{Directory.GetCurrentDirectory()}\\saveObj.txt";
 
@@ -94,7 +96,9 @@ namespace myCartoonZip
 
         private void DownloadChaptersHandler(object sender, EventArgs e)
         {
-            this.richTextBox1.Text = "Begin download";
+            this.richTextBox1.Text = "";
+            this.DisplayedResult = new List<string>();
+
             var locationOnDisk = this.textBox2.Text;
             if (string.IsNullOrEmpty(locationOnDisk) || this.listView2.SelectedItems.Count == 0)
             {
@@ -163,14 +167,18 @@ namespace myCartoonZip
         private void BackgroundComplete(object sender, RunWorkerCompletedEventArgs e)
         {
             var result = (dynamic)e.Result;
+            string displayedText = "";
             if (string.IsNullOrEmpty((string)result.result))
             {
-                this.richTextBox1.Text += "\r\n Download Complete :" +(string) result.chuong;
+                displayedText = "\n Download Complete :" + (string)result.chuong;
+                DisplayedResult.Add(displayedText);
+               
                 ((ListViewItem)result.selectTruyen).Checked = true;
             }
             else {
-                this.richTextBox1.Text += "\r\n Error :" + (string)result.chuong;
+                displayedText = "Error :" + (string)result.chuong;
             }
+            richTextBox1.Text = "Begin download" + string.Join("\r\n", DisplayedResult.OrderBy(s => s).ToArray());
         }
 
     }
