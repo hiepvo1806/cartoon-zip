@@ -41,7 +41,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CartoonService.cs" />
+    <Compile Include="TruyenTranhTuanCartoonService.cs" />
     <Compile Include="LogService.cs" />
     <Compile Include="site\tttParser.cs" />
   </ItemGroup>
