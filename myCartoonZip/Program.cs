@@ -31,7 +31,7 @@ namespace myCartoonZip
         static private void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton(typeof(ILogService<>), typeof(LogService<>));
-            serviceCollection.AddSingleton<ICartoonService, CartoonService>();
+            serviceCollection.AddSingleton<ICartoonService, TruyenTranhTuanCartoonService>();
         }
     }
 }

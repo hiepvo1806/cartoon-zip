@@ -8,10 +8,10 @@ using NewCartoonInterfaces.Model;
 
 namespace newCartoonImplementation
 {
-    public class CartoonService : ICartoonService
+    public class TruyenTranhTuanCartoonService : ICartoonService
     {
         private ILogService<Site> _logger;
-        public CartoonService(ILogService<Site> logService)
+        public TruyenTranhTuanCartoonService(ILogService<Site> logService)
         {
             _logger = logService;
         }
