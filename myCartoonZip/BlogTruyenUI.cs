@@ -21,7 +21,7 @@ namespace myCartoonZip
             }
             else
             {
-                this._TTTResetChapterListView();
+                this.ResetChapterListView();
                 var url = this.blogTruyenUrl.Text;
                 BlogTruyenCurrentMangaModel = blogTruyenService.ParseChapterPage(url);
                
@@ -43,33 +43,37 @@ namespace myCartoonZip
                 var val = i.GetValue(inputChapter, null).ToString();
                 addedItem.SubItems.Add(val);
             });
-            this.BlogTruyenChapterListView.Items.AddRange(new ListViewItem[] {
+            this.TTTchapterListView.Items.AddRange(new ListViewItem[] {
                      addedItem
                     });
 
         }
 
-        private void _resetBlogTruyenChapterListView()
-        {
-            foreach (ListViewItem i in this.BlogTruyenChapterListView.Items)
-            {
-                this.BlogTruyenChapterListView.Items.Remove(i);
-            }
-        }
+        //private void _resetBlogTruyenChapterListView()
+        //{
+        //    foreach (ListViewItem i in this.BlogTruyenChapterListView.Items)
+        //    {
+        //        this.BlogTruyenChapterListView.Items.Remove(i);
+        //    }
+        //}
 
-        private void BlogTruyenManagaFilterTextBox_TextChanged(object sender, EventArgs e)
-        {
-            BlogTruyenSetListMangaToView(BlogTruyenCurrentMangaModel);
-        }
+        //private void BlogTruyenManagaFilterTextBox_TextChanged(object sender, EventArgs e)
+        //{
+        //    BlogTruyenSetListMangaToView(BlogTruyenCurrentMangaModel);
+        //}
 
         private void BlogTruyenSetListMangaToView(Manga manga)
         {
             var searchText = BlogTruyenMangaFilterTextBox.Text;
-            this.BlogTruyenChapterListView.Items.Clear();
+            this.ResetChapterListView();
             foreach(var item in manga.ChapterList.Where(q => q.Name.ToLower().Contains(searchText.ToLower())).ToArray())
             {
                 BlogTruyenConvertChapterToListViewItem(item);
             }
+        }
+        private void BlogTruyenMangaFilterTextBox_Leave(object sender, EventArgs e)
+        {
+            BlogTruyenSetListMangaToView(BlogTruyenCurrentMangaModel);
         }
     }
 }

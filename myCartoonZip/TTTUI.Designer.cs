@@ -67,16 +67,9 @@ namespace myCartoonZip
             this.mangaFormTab = new System.Windows.Forms.TabControl();
             this.TTTTabPage = new System.Windows.Forms.TabPage();
             this.BlogTruyenTabPage = new System.Windows.Forms.TabPage();
-            this.BlogTruyenChapterFilterLabel = new System.Windows.Forms.Label();
-            this.BlogTruyenChapterListView = new System.Windows.Forms.ListView();
-            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.BlogTruyenSaveDirBtn = new System.Windows.Forms.Button();
-            this.BlogTruyenSaveDirTextBox = new System.Windows.Forms.TextBox();
-            this.BlogTruyenUrlToSaveLabel = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.BlogTruyenMangaFilterTextBox = new System.Windows.Forms.TextBox();
+            this.BlogTruyenChapterFilterLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).BeginInit();
             this.TTTGroupbox.SuspendLayout();
@@ -119,7 +112,7 @@ namespace myCartoonZip
             // 
             this.LogTabTextBox.Location = new System.Drawing.Point(6, 6);
             this.LogTabTextBox.Name = "LogTabTextBox";
-            this.LogTabTextBox.Size = new System.Drawing.Size(1112, 646);
+            this.LogTabTextBox.Size = new System.Drawing.Size(738, 574);
             this.LogTabTextBox.TabIndex = 3;
             this.LogTabTextBox.Text = "";
             // 
@@ -144,7 +137,7 @@ namespace myCartoonZip
             this.TTTMangaListView.HideSelection = false;
             this.TTTMangaListView.Location = new System.Drawing.Point(26, 99);
             this.TTTMangaListView.Name = "TTTMangaListView";
-            this.TTTMangaListView.Size = new System.Drawing.Size(568, 434);
+            this.TTTMangaListView.Size = new System.Drawing.Size(702, 434);
             this.TTTMangaListView.TabIndex = 6;
             this.TTTMangaListView.UseCompatibleStateImageBehavior = false;
             this.TTTMangaListView.View = System.Windows.Forms.View.Details;
@@ -181,9 +174,9 @@ namespace myCartoonZip
             // 
             // TTTDownloadChapterBtn
             // 
-            this.TTTDownloadChapterBtn.Location = new System.Drawing.Point(639, 44);
+            this.TTTDownloadChapterBtn.Location = new System.Drawing.Point(26, 539);
             this.TTTDownloadChapterBtn.Name = "TTTDownloadChapterBtn";
-            this.TTTDownloadChapterBtn.Size = new System.Drawing.Size(151, 23);
+            this.TTTDownloadChapterBtn.Size = new System.Drawing.Size(79, 38);
             this.TTTDownloadChapterBtn.TabIndex = 8;
             this.TTTDownloadChapterBtn.Text = "Download Chapters";
             this.TTTDownloadChapterBtn.UseVisualStyleBackColor = true;
@@ -192,7 +185,7 @@ namespace myCartoonZip
             // TTTUrlToSaveLabel
             // 
             this.TTTUrlToSaveLabel.AutoSize = true;
-            this.TTTUrlToSaveLabel.Location = new System.Drawing.Point(640, 76);
+            this.TTTUrlToSaveLabel.Location = new System.Drawing.Point(871, 45);
             this.TTTUrlToSaveLabel.Name = "TTTUrlToSaveLabel";
             this.TTTUrlToSaveLabel.Size = new System.Drawing.Size(58, 13);
             this.TTTUrlToSaveLabel.TabIndex = 9;
@@ -200,14 +193,14 @@ namespace myCartoonZip
             // 
             // TTTUrlToSaveTextbox
             // 
-            this.TTTUrlToSaveTextbox.Location = new System.Drawing.Point(724, 73);
+            this.TTTUrlToSaveTextbox.Location = new System.Drawing.Point(955, 42);
             this.TTTUrlToSaveTextbox.Name = "TTTUrlToSaveTextbox";
             this.TTTUrlToSaveTextbox.Size = new System.Drawing.Size(264, 20);
             this.TTTUrlToSaveTextbox.TabIndex = 10;
             // 
             // TTTUrlToSaveBtn
             // 
-            this.TTTUrlToSaveBtn.Location = new System.Drawing.Point(994, 72);
+            this.TTTUrlToSaveBtn.Location = new System.Drawing.Point(1225, 41);
             this.TTTUrlToSaveBtn.Name = "TTTUrlToSaveBtn";
             this.TTTUrlToSaveBtn.Size = new System.Drawing.Size(30, 20);
             this.TTTUrlToSaveBtn.TabIndex = 11;
@@ -225,9 +218,9 @@ namespace myCartoonZip
             this.columnHeader6});
             this.TTTchapterListView.FullRowSelect = true;
             this.TTTchapterListView.GridLines = true;
-            this.TTTchapterListView.Location = new System.Drawing.Point(639, 99);
+            this.TTTchapterListView.Location = new System.Drawing.Point(874, 140);
             this.TTTchapterListView.Name = "TTTchapterListView";
-            this.TTTchapterListView.Size = new System.Drawing.Size(436, 434);
+            this.TTTchapterListView.Size = new System.Drawing.Size(436, 495);
             this.TTTchapterListView.TabIndex = 12;
             this.TTTchapterListView.UseCompatibleStateImageBehavior = false;
             this.TTTchapterListView.View = System.Windows.Forms.View.Details;
@@ -310,108 +303,33 @@ namespace myCartoonZip
             this.mangaFormTab.Location = new System.Drawing.Point(24, 23);
             this.mangaFormTab.Name = "mangaFormTab";
             this.mangaFormTab.SelectedIndex = 0;
-            this.mangaFormTab.Size = new System.Drawing.Size(1132, 684);
+            this.mangaFormTab.Size = new System.Drawing.Size(758, 612);
             this.mangaFormTab.TabIndex = 15;
             // 
             // TTTTabPage
             // 
             this.TTTTabPage.Controls.Add(this.TTTMangaListView);
-            this.TTTTabPage.Controls.Add(this.TTTchapterListView);
-            this.TTTTabPage.Controls.Add(this.TTTUrlToSaveBtn);
             this.TTTTabPage.Controls.Add(this.TTTGroupbox);
-            this.TTTTabPage.Controls.Add(this.TTTUrlToSaveTextbox);
-            this.TTTTabPage.Controls.Add(this.TTTUrlToSaveLabel);
             this.TTTTabPage.Controls.Add(this.label3);
             this.TTTTabPage.Controls.Add(this.TTTDownloadChapterBtn);
             this.TTTTabPage.Location = new System.Drawing.Point(4, 22);
             this.TTTTabPage.Name = "TTTTabPage";
             this.TTTTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.TTTTabPage.Size = new System.Drawing.Size(1124, 658);
+            this.TTTTabPage.Size = new System.Drawing.Size(750, 586);
             this.TTTTabPage.TabIndex = 0;
             this.TTTTabPage.Text = "Truyen Tranh Tuan";
             this.TTTTabPage.UseVisualStyleBackColor = true;
             // 
             // BlogTruyenTabPage
             // 
-            this.BlogTruyenTabPage.Controls.Add(this.BlogTruyenMangaFilterTextBox);
-            this.BlogTruyenTabPage.Controls.Add(this.BlogTruyenChapterFilterLabel);
-            this.BlogTruyenTabPage.Controls.Add(this.BlogTruyenChapterListView);
-            this.BlogTruyenTabPage.Controls.Add(this.BlogTruyenSaveDirBtn);
-            this.BlogTruyenTabPage.Controls.Add(this.BlogTruyenSaveDirTextBox);
-            this.BlogTruyenTabPage.Controls.Add(this.BlogTruyenUrlToSaveLabel);
             this.BlogTruyenTabPage.Controls.Add(this.blogTruyenGroupBox);
             this.BlogTruyenTabPage.Location = new System.Drawing.Point(4, 22);
             this.BlogTruyenTabPage.Name = "BlogTruyenTabPage";
             this.BlogTruyenTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.BlogTruyenTabPage.Size = new System.Drawing.Size(1124, 658);
+            this.BlogTruyenTabPage.Size = new System.Drawing.Size(750, 586);
             this.BlogTruyenTabPage.TabIndex = 1;
             this.BlogTruyenTabPage.Text = "Blog Truyen";
             this.BlogTruyenTabPage.UseVisualStyleBackColor = true;
-            // 
-            // BlogTruyenChapterFilterLabel
-            // 
-            this.BlogTruyenChapterFilterLabel.AutoSize = true;
-            this.BlogTruyenChapterFilterLabel.Location = new System.Drawing.Point(20, 148);
-            this.BlogTruyenChapterFilterLabel.Name = "BlogTruyenChapterFilterLabel";
-            this.BlogTruyenChapterFilterLabel.Size = new System.Drawing.Size(69, 13);
-            this.BlogTruyenChapterFilterLabel.TabIndex = 20;
-            this.BlogTruyenChapterFilterLabel.Text = "Chapter Filter";
-            // 
-            // BlogTruyenChapterListView
-            // 
-            this.BlogTruyenChapterListView.AllowColumnReorder = true;
-            this.BlogTruyenChapterListView.CheckBoxes = true;
-            this.BlogTruyenChapterListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader8,
-            this.columnHeader9,
-            this.columnHeader10});
-            this.BlogTruyenChapterListView.FullRowSelect = true;
-            this.BlogTruyenChapterListView.GridLines = true;
-            this.BlogTruyenChapterListView.Location = new System.Drawing.Point(16, 173);
-            this.BlogTruyenChapterListView.Name = "BlogTruyenChapterListView";
-            this.BlogTruyenChapterListView.Size = new System.Drawing.Size(714, 434);
-            this.BlogTruyenChapterListView.TabIndex = 19;
-            this.BlogTruyenChapterListView.UseCompatibleStateImageBehavior = false;
-            this.BlogTruyenChapterListView.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader8
-            // 
-            this.columnHeader8.Text = "Chuong";
-            this.columnHeader8.Width = 200;
-            // 
-            // columnHeader9
-            // 
-            this.columnHeader9.Text = "url";
-            // 
-            // columnHeader10
-            // 
-            this.columnHeader10.Text = "Ngay dang";
-            this.columnHeader10.Width = 150;
-            // 
-            // BlogTruyenSaveDirBtn
-            // 
-            this.BlogTruyenSaveDirBtn.Location = new System.Drawing.Point(374, 117);
-            this.BlogTruyenSaveDirBtn.Name = "BlogTruyenSaveDirBtn";
-            this.BlogTruyenSaveDirBtn.Size = new System.Drawing.Size(30, 20);
-            this.BlogTruyenSaveDirBtn.TabIndex = 18;
-            this.BlogTruyenSaveDirBtn.Text = "...";
-            this.BlogTruyenSaveDirBtn.UseVisualStyleBackColor = true;
-            // 
-            // BlogTruyenSaveDirTextBox
-            // 
-            this.BlogTruyenSaveDirTextBox.Location = new System.Drawing.Point(104, 118);
-            this.BlogTruyenSaveDirTextBox.Name = "BlogTruyenSaveDirTextBox";
-            this.BlogTruyenSaveDirTextBox.Size = new System.Drawing.Size(264, 20);
-            this.BlogTruyenSaveDirTextBox.TabIndex = 17;
-            // 
-            // BlogTruyenUrlToSaveLabel
-            // 
-            this.BlogTruyenUrlToSaveLabel.AutoSize = true;
-            this.BlogTruyenUrlToSaveLabel.Location = new System.Drawing.Point(20, 121);
-            this.BlogTruyenUrlToSaveLabel.Name = "BlogTruyenUrlToSaveLabel";
-            this.BlogTruyenUrlToSaveLabel.Size = new System.Drawing.Size(58, 13);
-            this.BlogTruyenUrlToSaveLabel.TabIndex = 16;
-            this.BlogTruyenUrlToSaveLabel.Text = "Url to save";
             // 
             // tabPage1
             // 
@@ -419,25 +337,40 @@ namespace myCartoonZip
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1124, 658);
+            this.tabPage1.Size = new System.Drawing.Size(750, 586);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Logs";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // BlogTruyenManagaFilterTextBox
+            // BlogTruyenMangaFilterTextBox
             // 
-            this.BlogTruyenMangaFilterTextBox.Location = new System.Drawing.Point(104, 147);
-            this.BlogTruyenMangaFilterTextBox.Name = "BlogTruyenManagaFilterTextBox";
+            this.BlogTruyenMangaFilterTextBox.Location = new System.Drawing.Point(955, 96);
+            this.BlogTruyenMangaFilterTextBox.Name = "BlogTruyenMangaFilterTextBox";
             this.BlogTruyenMangaFilterTextBox.Size = new System.Drawing.Size(264, 20);
             this.BlogTruyenMangaFilterTextBox.TabIndex = 21;
-            this.BlogTruyenMangaFilterTextBox.TextChanged += new System.EventHandler(this.BlogTruyenManagaFilterTextBox_TextChanged);
+            this.BlogTruyenMangaFilterTextBox.Leave += new System.EventHandler(this.BlogTruyenMangaFilterTextBox_Leave);
+            // 
+            // BlogTruyenChapterFilterLabel
+            // 
+            this.BlogTruyenChapterFilterLabel.AutoSize = true;
+            this.BlogTruyenChapterFilterLabel.Location = new System.Drawing.Point(871, 97);
+            this.BlogTruyenChapterFilterLabel.Name = "BlogTruyenChapterFilterLabel";
+            this.BlogTruyenChapterFilterLabel.Size = new System.Drawing.Size(69, 13);
+            this.BlogTruyenChapterFilterLabel.TabIndex = 20;
+            this.BlogTruyenChapterFilterLabel.Text = "Chapter Filter";
             // 
             // MangaDownloadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1338, 780);
+            this.ClientSize = new System.Drawing.Size(1338, 667);
+            this.Controls.Add(this.BlogTruyenMangaFilterTextBox);
+            this.Controls.Add(this.TTTchapterListView);
             this.Controls.Add(this.mangaFormTab);
+            this.Controls.Add(this.BlogTruyenChapterFilterLabel);
+            this.Controls.Add(this.TTTUrlToSaveLabel);
+            this.Controls.Add(this.TTTUrlToSaveBtn);
+            this.Controls.Add(this.TTTUrlToSaveTextbox);
             this.Name = "MangaDownloadForm";
             this.Text = "My Cartooon Zip";
             this.Load += new System.EventHandler(this.FormLoad);
@@ -451,9 +384,9 @@ namespace myCartoonZip
             this.TTTTabPage.ResumeLayout(false);
             this.TTTTabPage.PerformLayout();
             this.BlogTruyenTabPage.ResumeLayout(false);
-            this.BlogTruyenTabPage.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -492,13 +425,6 @@ namespace myCartoonZip
         private TabPage tabPage1;
         private Button button2;
         private Label BlogTruyenChapterFilterLabel;
-        private ListView BlogTruyenChapterListView;
-        private ColumnHeader columnHeader8;
-        private ColumnHeader columnHeader9;
-        private ColumnHeader columnHeader10;
-        private Button BlogTruyenSaveDirBtn;
-        private TextBox BlogTruyenSaveDirTextBox;
-        private Label BlogTruyenUrlToSaveLabel;
         private TextBox BlogTruyenMangaFilterTextBox;
     }
 }

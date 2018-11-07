@@ -186,7 +186,7 @@ namespace myCartoonZip
 
         
 
-        private void _TTTResetChapterListView()
+        private void ResetChapterListView()
         {
             foreach (ListViewItem i in this.TTTchapterListView.Items)
             {
