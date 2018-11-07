@@ -64,17 +64,17 @@ namespace myCartoonZip
 
         private void LoadChaptersHandler(object sender, EventArgs e)
         {
-            if (this.mangaListView.SelectedItems.Count == 0)
+            if (this.TTTMangaListView.SelectedItems.Count == 0)
             {
                 MessageBox.Show("No item selected", "Error",
                     MessageBoxButtons.OK);
             }
             else
             {
-                var selectedTruyen = this.mangaListView.SelectedItems[0];
-                foreach (ListViewItem i in this.chapterListView.Items)
+                var selectedTruyen = this.TTTMangaListView.SelectedItems[0];
+                foreach (ListViewItem i in this.TTTchapterListView.Items)
                 {
-                    this.chapterListView.Items.Remove(i);
+                    this.TTTchapterListView.Items.Remove(i);
                 }
                 var url = selectedTruyen.SubItems[3].Text;
                 truyenPageModel = _cartoonService.ParseChapterPage(url);
@@ -89,7 +89,7 @@ namespace myCartoonZip
                         var val = i.GetValue(x, null).ToString();
                         addedItem.SubItems.Add(val);
                     });
-                    this.chapterListView.Items.AddRange(new ListViewItem[] {
+                    this.TTTchapterListView.Items.AddRange(new ListViewItem[] {
                      addedItem
                     });
                 });
@@ -98,11 +98,11 @@ namespace myCartoonZip
 
         private void DownloadChaptersHandler(object sender, EventArgs e)
         {
-            this.richTextBox1.Text = "";
+            this.TTTStatusDownloadLogTextBox.Text = "";
             this.DisplayedResult = new List<string>();
 
-            var locationOnDisk = this.textBox2.Text;
-            if (string.IsNullOrEmpty(locationOnDisk) || this.chapterListView.SelectedItems.Count == 0)
+            var locationOnDisk = this.TTTUrlToSaveTextbox.Text;
+            if (string.IsNullOrEmpty(locationOnDisk) || this.TTTchapterListView.SelectedItems.Count == 0)
             {
                 MessageBox.Show(string.IsNullOrEmpty(locationOnDisk) ? "Empty Save Directory" : "Please select Manga to Download", "Error",
                            MessageBoxButtons.OK);
@@ -112,7 +112,7 @@ namespace myCartoonZip
                 try
                 {
 
-                    foreach (ListViewItem selectedTruyen in this.chapterListView.SelectedItems)
+                    foreach (ListViewItem selectedTruyen in this.TTTchapterListView.SelectedItems)
                     {
                         var url = selectedTruyen.SubItems[1].Text;
                         var saveDir = locationOnDisk + '\\' + selectedTruyen.SubItems[0].Text.Replace(":","_");
@@ -144,16 +144,16 @@ namespace myCartoonZip
             DialogResult result = folderBrowserDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
-                this.textBox2.Text = folderBrowserDialog1.SelectedPath;
+                this.TTTUrlToSaveTextbox.Text = folderBrowserDialog1.SelectedPath;
             }
 
         }
 
         private void SetListMangaToView(List<ListViewItem> mangaList)
         {
-            var searchText = textBox1.Text;
-            this.mangaListView.Items.Clear();
-            this.mangaListView.Items.AddRange(mangaList.Where(q => q.Text.ToLower().Contains(searchText)).ToArray());
+            var searchText = TTTSearchTextbox.Text;
+            this.TTTMangaListView.Items.Clear();
+            this.TTTMangaListView.Items.AddRange(mangaList.Where(q => q.Text.ToLower().Contains(searchText)).ToArray());
         }
 
         private void BackgroundDoWork(object sender, DoWorkEventArgs e)
@@ -180,7 +180,7 @@ namespace myCartoonZip
             else {
                 displayedText = "Error :" + (string)result.chuong;
             }
-            richTextBox1.Text = "Begin download" + string.Join("\r\n", DisplayedResult.OrderBy(s => s).ToArray());
+            TTTStatusDownloadLogTextBox.Text = "Begin download" + string.Join("\r\n", DisplayedResult.OrderBy(s => s).ToArray());
         }
 
         private void blogTruyenClicked(object sender, EventArgs e)
@@ -207,7 +207,7 @@ namespace myCartoonZip
                         var val = i.GetValue(x, null).ToString();
                         addedItem.SubItems.Add(val);
                     });
-                    this.chapterListView.Items.AddRange(new ListViewItem[] {
+                    this.TTTchapterListView.Items.AddRange(new ListViewItem[] {
                      addedItem
                     });
                 });
@@ -216,9 +216,9 @@ namespace myCartoonZip
 
         private void _resetChapterListView()
         {
-            foreach (ListViewItem i in this.chapterListView.Items)
+            foreach (ListViewItem i in this.TTTchapterListView.Items)
             {
-                this.chapterListView.Items.Remove(i);
+                this.TTTchapterListView.Items.Remove(i);
             }
         }
     }
