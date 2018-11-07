@@ -39,7 +39,7 @@ namespace myCartoonZip
             this.TTTSearchLabel = new System.Windows.Forms.Label();
             this.TTTSearchTextbox = new System.Windows.Forms.TextBox();
             this.TTTLoadFromUrlBtn = new System.Windows.Forms.Button();
-            this.TTTStatusDownloadLogTextBox = new System.Windows.Forms.RichTextBox();
+            this.LogTabTextBox = new System.Windows.Forms.RichTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.form1BindingSource1 = new System.Windows.Forms.BindingSource(this.components);
@@ -112,15 +112,15 @@ namespace myCartoonZip
             this.TTTLoadFromUrlBtn.TabIndex = 2;
             this.TTTLoadFromUrlBtn.Text = "Load from Url";
             this.TTTLoadFromUrlBtn.UseVisualStyleBackColor = true;
-            this.TTTLoadFromUrlBtn.Click += new System.EventHandler(this.LoadButtonFromURLHanlder);
+            this.TTTLoadFromUrlBtn.Click += new System.EventHandler(this.TTTLoadButtonFromURLHanlder);
             // 
             // TTTStatusDownloadLogTextBox
             // 
-            this.TTTStatusDownloadLogTextBox.Location = new System.Drawing.Point(6, 6);
-            this.TTTStatusDownloadLogTextBox.Name = "TTTStatusDownloadLogTextBox";
-            this.TTTStatusDownloadLogTextBox.Size = new System.Drawing.Size(1112, 646);
-            this.TTTStatusDownloadLogTextBox.TabIndex = 3;
-            this.TTTStatusDownloadLogTextBox.Text = "";
+            this.LogTabTextBox.Location = new System.Drawing.Point(6, 6);
+            this.LogTabTextBox.Name = "TTTStatusDownloadLogTextBox";
+            this.LogTabTextBox.Size = new System.Drawing.Size(1112, 646);
+            this.LogTabTextBox.TabIndex = 3;
+            this.LogTabTextBox.Text = "";
             // 
             // label3
             // 
@@ -176,7 +176,7 @@ namespace myCartoonZip
             this.TTTLoadChapterBtn.TabIndex = 7;
             this.TTTLoadChapterBtn.Text = "Load Chapters";
             this.TTTLoadChapterBtn.UseVisualStyleBackColor = true;
-            this.TTTLoadChapterBtn.Click += new System.EventHandler(this.LoadChaptersHandler);
+            this.TTTLoadChapterBtn.Click += new System.EventHandler(this.TTTLoadChaptersHandler);
             // 
             // TTTDownloadChapterBtn
             // 
@@ -186,7 +186,7 @@ namespace myCartoonZip
             this.TTTDownloadChapterBtn.TabIndex = 8;
             this.TTTDownloadChapterBtn.Text = "Download Chapters";
             this.TTTDownloadChapterBtn.UseVisualStyleBackColor = true;
-            this.TTTDownloadChapterBtn.Click += new System.EventHandler(this.DownloadChaptersHandler);
+            this.TTTDownloadChapterBtn.Click += new System.EventHandler(this.TTTDownloadChaptersHandler);
             // 
             // TTTUrlToSaveLabel
             // 
@@ -247,8 +247,8 @@ namespace myCartoonZip
             // 
             // backgroundWorker1
             // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundDoWork);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BackgroundComplete);
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.TTTBackgroundDoWork);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.TTTBackgroundComplete);
             // 
             // TTTGroupbox
             // 
@@ -339,7 +339,7 @@ namespace myCartoonZip
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.TTTStatusDownloadLogTextBox);
+            this.tabPage1.Controls.Add(this.LogTabTextBox);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -452,7 +452,7 @@ namespace myCartoonZip
         private System.Windows.Forms.Label TTTSearchLabel;
         private System.Windows.Forms.TextBox TTTSearchTextbox;
         private System.Windows.Forms.Button TTTLoadFromUrlBtn;
-        private System.Windows.Forms.RichTextBox TTTStatusDownloadLogTextBox;
+        private System.Windows.Forms.RichTextBox LogTabTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.BindingSource form1BindingSource1;
         private System.Windows.Forms.BindingSource form1BindingSource;

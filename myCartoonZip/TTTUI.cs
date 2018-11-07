@@ -16,9 +16,9 @@ namespace myCartoonZip
     public partial class MangaDownloadForm : Form
     {
         private readonly ICartoonService _cartoonService;
-        public Site homePageViewModel { get; set; }
-        public Manga truyenPageModel { get; set; }
-        public  List<ListViewItem> mainViewMangaListModel { get; set; }
+        public Site TTTHomePageViewModel { get; set; }
+        public Manga TTTCurrentMangaModel { get; set; }
+        public List<ListViewItem> TTTViewMangaListModel { get; set; }
         public List<string> DisplayedResult { get; set; }
 
         public ILogService<List<ListViewItem>> _logger;
@@ -35,17 +35,17 @@ namespace myCartoonZip
 
         private void FormLoad(object sender, EventArgs e)
         {
-            mainViewMangaListModel = _logger.GetObjectFromFile(savedMangaListLocation);
-            SetListMangaToView(mainViewMangaListModel);
+            TTTViewMangaListModel = _logger.GetObjectFromFile(savedMangaListLocation);
+            TTTSetListMangaToView(TTTViewMangaListModel);
         }
 
-        private void LoadButtonFromURLHanlder(object sender, EventArgs e)
+        private void TTTLoadButtonFromURLHanlder(object sender, EventArgs e)
         {
-            mainViewMangaListModel = new List<ListViewItem>();
-            homePageViewModel = _cartoonService.ParseMainPageContent();
+            TTTViewMangaListModel = new List<ListViewItem>();
+            TTTHomePageViewModel = _cartoonService.ParseMainPageContent();
             var homePageModelProps = typeof(Manga)
                 .GetProperties().OrderBy(o => o.Name).Where(q => q.Name != "Name" && q.PropertyType == typeof(string)).ToList();
-            homePageViewModel.MangaList.ForEach(x =>
+            TTTHomePageViewModel.MangaList.ForEach(x =>
             {
                 var addedItem = new ListViewItem(x.Name, 0);
                 homePageModelProps.ForEach(i => {
@@ -55,15 +55,15 @@ namespace myCartoonZip
                     }  
                     
                 });
-                mainViewMangaListModel.Add(addedItem);
+                TTTViewMangaListModel.Add(addedItem);
                 
             });
-            SetListMangaToView(mainViewMangaListModel);
-            _logger.SaveObjectToFile(savedMangaListLocation, mainViewMangaListModel);
+            TTTSetListMangaToView(TTTViewMangaListModel);
+            _logger.SaveObjectToFile(savedMangaListLocation, TTTViewMangaListModel);
         }
         
 
-        private void LoadChaptersHandler(object sender, EventArgs e)
+        private void TTTLoadChaptersHandler(object sender, EventArgs e)
         {
             if (this.TTTMangaListView.SelectedItems.Count == 0)
             {
@@ -78,11 +78,11 @@ namespace myCartoonZip
                     this.TTTchapterListView.Items.Remove(i);
                 }
                 var url = selectedTruyen.SubItems[3].Text;
-                truyenPageModel = _cartoonService.ParseChapterPage(url);
+                TTTCurrentMangaModel = _cartoonService.ParseChapterPage(url);
                 var truyenPageProp = typeof(Chapter)
                     .GetProperties().OrderBy(o => o.Name)
                     .Where(q => q.Name != "Name").ToList();
-                truyenPageModel.ChapterList.ForEach(x =>
+                TTTCurrentMangaModel.ChapterList.ForEach(x =>
                 {
                     var addedItem = new ListViewItem(x.Name, 0);
                     truyenPageProp.ForEach(i =>
@@ -97,9 +97,9 @@ namespace myCartoonZip
             }
         }
 
-        private void DownloadChaptersHandler(object sender, EventArgs e)
+        private void TTTDownloadChaptersHandler(object sender, EventArgs e)
         {
-            this.TTTStatusDownloadLogTextBox.Text = "";
+            this.LogTabTextBox.Text = "";
             this.DisplayedResult = new List<string>();
 
             var locationOnDisk = this.TTTUrlToSaveTextbox.Text;
@@ -119,8 +119,8 @@ namespace myCartoonZip
                         var saveDir = locationOnDisk + '\\' + selectedTruyen.SubItems[0].Text.Replace(":","_");
                         Directory.CreateDirectory(saveDir);
                         BackgroundWorker worker = new BackgroundWorker();
-                        worker.DoWork += new DoWorkEventHandler(BackgroundDoWork);
-                        worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(BackgroundComplete);
+                        worker.DoWork += new DoWorkEventHandler(TTTBackgroundDoWork);
+                        worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(TTTBackgroundComplete);
                         worker.RunWorkerAsync(new MangaCacheModel()
                         {
                             saveDir = saveDir,
@@ -138,7 +138,7 @@ namespace myCartoonZip
         }
         private void SearchTextChangedHandler(object sender, EventArgs e)
         {
-            SetListMangaToView(mainViewMangaListModel);
+            TTTSetListMangaToView(TTTViewMangaListModel);
         }
         private void SelectUrlToSaveChaps(object sender, EventArgs e)
         {
@@ -150,14 +150,14 @@ namespace myCartoonZip
 
         }
 
-        private void SetListMangaToView(List<ListViewItem> mangaList)
+        private void TTTSetListMangaToView(List<ListViewItem> mangaList)
         {
             var searchText = TTTSearchTextbox.Text;
             this.TTTMangaListView.Items.Clear();
             this.TTTMangaListView.Items.AddRange(mangaList.Where(q => q.Text.ToLower().Contains(searchText)).ToArray());
         }
 
-        private void BackgroundDoWork(object sender, DoWorkEventArgs e)
+        private void TTTBackgroundDoWork(object sender, DoWorkEventArgs e)
         {
             MangaCacheModel inputManga = e.Argument as MangaCacheModel;
             e.Result = new {
@@ -167,7 +167,7 @@ namespace myCartoonZip
             };
         }
 
-        private void BackgroundComplete(object sender, RunWorkerCompletedEventArgs e)
+        private void TTTBackgroundComplete(object sender, RunWorkerCompletedEventArgs e)
         {
             var result = (dynamic)e.Result;
             string displayedText = "";
@@ -181,12 +181,12 @@ namespace myCartoonZip
             else {
                 displayedText = "Error :" + (string)result.chuong;
             }
-            TTTStatusDownloadLogTextBox.Text = "Begin download" + string.Join("\r\n", DisplayedResult.OrderBy(s => s).ToArray());
+            LogTabTextBox.Text = "Begin download" + string.Join("\r\n", DisplayedResult.OrderBy(s => s).ToArray());
         }
 
         
 
-        private void _resetChapterListView()
+        private void _TTTResetChapterListView()
         {
             foreach (ListViewItem i in this.TTTchapterListView.Items)
             {
