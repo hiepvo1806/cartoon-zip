@@ -10,6 +10,7 @@ namespace myCartoonZip
 {
     public partial class MangaDownloadForm : Form
     {
+        public Manga BlogTruyenCurrentMangaModel { get; set; }
         private void blogTruyenClicked(object sender, EventArgs e)
         {
 
@@ -22,23 +23,30 @@ namespace myCartoonZip
             {
                 this._TTTResetChapterListView();
                 var url = this.blogTruyenUrl.Text;
-                TTTCurrentMangaModel = blogTruyenService.ParseChapterPage(url);
-                var truyenPageProp = typeof(Chapter)
-                    .GetProperties().OrderBy(o => o.Name)
-                    .Where(q => q.Name != "Name").ToList();
-                TTTCurrentMangaModel.ChapterList.ForEach(x =>
+                BlogTruyenCurrentMangaModel = blogTruyenService.ParseChapterPage(url);
+               
+                BlogTruyenCurrentMangaModel.ChapterList.ForEach(x =>
                 {
-                    var addedItem = new ListViewItem(x.Name, 0);
-                    truyenPageProp.ForEach(i =>
-                    {
-                        var val = i.GetValue(x, null).ToString();
-                        addedItem.SubItems.Add(val);
-                    });
-                    this.BlogTruyenChapterListView.Items.AddRange(new ListViewItem[] {
-                     addedItem
-                    });
+                    BlogTruyenConvertChapterToListViewItem(x);
                 });
             }
+        }
+
+        private void BlogTruyenConvertChapterToListViewItem(Chapter inputChapter)
+        {
+            var truyenPageProp = typeof(Chapter)
+                   .GetProperties().OrderBy(o => o.Name)
+                   .Where(q => q.Name != "Name").ToList();
+            var addedItem = new ListViewItem(inputChapter.Name, 0);
+            truyenPageProp.ForEach(i =>
+            {
+                var val = i.GetValue(inputChapter, null).ToString();
+                addedItem.SubItems.Add(val);
+            });
+            this.BlogTruyenChapterListView.Items.AddRange(new ListViewItem[] {
+                     addedItem
+                    });
+
         }
 
         private void _resetBlogTruyenChapterListView()
@@ -47,6 +55,18 @@ namespace myCartoonZip
             {
                 this.BlogTruyenChapterListView.Items.Remove(i);
             }
+        }
+
+        private void BlogTruyenManagaFilterTextBox_TextChanged(object sender, EventArgs e)
+        {
+            BlogTruyenSetListMangaToView(BlogTruyenCurrentMangaModel);
+        }
+
+        private void BlogTruyenSetListMangaToView(Manga manga)
+        {
+            var searchText = BlogTruyenMangaFilterTextBox.Text;
+            this.BlogTruyenChapterListView.Items.Clear();
+            this.BlogTruyenChapterListView.Items.AddRange(manga.ChapterList.Where(q => q.Name.Contains(searchText)).ToArray());
         }
     }
 }

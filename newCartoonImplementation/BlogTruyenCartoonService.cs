@@ -13,7 +13,7 @@ namespace newCartoonImplementation
     public class BlogTruyenCartoonService : ICartoonService
     {
         private readonly ILogService<Site> _logger;
-        private string mangaProviderUrl = @"http://truyentranhtuan.com/danh-sach-truyen/";
+        //private string mangaProviderUrl = @"http://truyentranhtuan.com/danh-sach-truyen/";
         public BlogTruyenCartoonService(ILogService<Site> logService)
         {
             _logger = logService;
