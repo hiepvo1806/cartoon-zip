@@ -66,7 +66,10 @@ namespace myCartoonZip
         {
             var searchText = BlogTruyenMangaFilterTextBox.Text;
             this.BlogTruyenChapterListView.Items.Clear();
-            this.BlogTruyenChapterListView.Items.AddRange(manga.ChapterList.Where(q => q.Name.Contains(searchText)).ToArray());
+            foreach(var item in manga.ChapterList.Where(q => q.Name.ToLower().Contains(searchText.ToLower())).ToArray())
+            {
+                BlogTruyenConvertChapterToListViewItem(item);
+            }
         }
     }
 }
