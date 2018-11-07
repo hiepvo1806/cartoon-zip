@@ -137,7 +137,7 @@ namespace myCartoonZip
             this.TTTMangaListView.HideSelection = false;
             this.TTTMangaListView.Location = new System.Drawing.Point(26, 99);
             this.TTTMangaListView.Name = "TTTMangaListView";
-            this.TTTMangaListView.Size = new System.Drawing.Size(702, 434);
+            this.TTTMangaListView.Size = new System.Drawing.Size(702, 469);
             this.TTTMangaListView.TabIndex = 6;
             this.TTTMangaListView.UseCompatibleStateImageBehavior = false;
             this.TTTMangaListView.View = System.Windows.Forms.View.Details;
@@ -174,7 +174,7 @@ namespace myCartoonZip
             // 
             // TTTDownloadChapterBtn
             // 
-            this.TTTDownloadChapterBtn.Location = new System.Drawing.Point(26, 539);
+            this.TTTDownloadChapterBtn.Location = new System.Drawing.Point(600, 42);
             this.TTTDownloadChapterBtn.Name = "TTTDownloadChapterBtn";
             this.TTTDownloadChapterBtn.Size = new System.Drawing.Size(79, 38);
             this.TTTDownloadChapterBtn.TabIndex = 8;

@@ -24,15 +24,16 @@ namespace myCartoonZip
                 this.ResetChapterListView();
                 var url = this.blogTruyenUrl.Text;
                 BlogTruyenCurrentMangaModel = blogTruyenService.ParseChapterPage(url);
-               
+                var listViewItems = new List<ListViewItem>();
                 BlogTruyenCurrentMangaModel.ChapterList.ForEach(x =>
                 {
-                    BlogTruyenConvertChapterToListViewItem(x);
+                    listViewItems.AddRange( BlogTruyenConvertChapterToListViewItem(x) );
                 });
+                this.TTTchapterListView.Items.AddRange(listViewItems.ToArray());
             }
         }
 
-        private void BlogTruyenConvertChapterToListViewItem(Chapter inputChapter)
+        private ListViewItem[] BlogTruyenConvertChapterToListViewItem(Chapter inputChapter)
         {
             var truyenPageProp = typeof(Chapter)
                    .GetProperties().OrderBy(o => o.Name)
@@ -43,33 +44,21 @@ namespace myCartoonZip
                 var val = i.GetValue(inputChapter, null).ToString();
                 addedItem.SubItems.Add(val);
             });
-            this.TTTchapterListView.Items.AddRange(new ListViewItem[] {
+            return new ListViewItem[] {
                      addedItem
-                    });
-
+                    };
         }
-
-        //private void _resetBlogTruyenChapterListView()
-        //{
-        //    foreach (ListViewItem i in this.BlogTruyenChapterListView.Items)
-        //    {
-        //        this.BlogTruyenChapterListView.Items.Remove(i);
-        //    }
-        //}
-
-        //private void BlogTruyenManagaFilterTextBox_TextChanged(object sender, EventArgs e)
-        //{
-        //    BlogTruyenSetListMangaToView(BlogTruyenCurrentMangaModel);
-        //}
 
         private void BlogTruyenSetListMangaToView(Manga manga)
         {
             var searchText = BlogTruyenMangaFilterTextBox.Text;
             this.ResetChapterListView();
-            foreach(var item in manga.ChapterList.Where(q => q.Name.ToLower().Contains(searchText.ToLower())).ToArray())
+            var listViewItems = new List<ListViewItem>();
+            foreach (var item in manga.ChapterList.Where(q => q.Name.ToLower().Contains(searchText.ToLower())).ToArray())
             {
-                BlogTruyenConvertChapterToListViewItem(item);
+                listViewItems.AddRange( BlogTruyenConvertChapterToListViewItem(item) );
             }
+            this.TTTchapterListView.Items.AddRange(listViewItems.ToArray());
         }
         private void BlogTruyenMangaFilterTextBox_Leave(object sender, EventArgs e)
         {
