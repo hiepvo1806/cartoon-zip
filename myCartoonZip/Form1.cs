@@ -7,6 +7,8 @@ using NewCartoonInterfaces.Model;
 using System.Data;
 using System.ComponentModel;
 using System.IO;
+using newCartoonImplementation;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace myCartoonZip
 {
@@ -19,14 +21,15 @@ namespace myCartoonZip
         public List<string> DisplayedResult { get; set; }
 
         public ILogService<List<ListViewItem>> _logger;
+        private ICartoonService blogTruyenService;
         private string savedMangaListLocation = $"{Directory.GetCurrentDirectory()}\\saveObj.txt";
 
-        public Form1(ICartoonService cartoonService,ILogService<List<ListViewItem>> logger)
+        public Form1(ICartoonService cartoonService,ILogService<List<ListViewItem>> logger, IServiceProvider serviceProvider)
         {
             InitializeComponent();
             _cartoonService = cartoonService;
             _logger = logger;
-
+            blogTruyenService = new BlogTruyenCartoonService(serviceProvider.GetService<ILogService<Site>>());
         }
 
         private void FormLoad(object sender, EventArgs e)
@@ -37,9 +40,8 @@ namespace myCartoonZip
 
         private void LoadButtonFromURLHanlder(object sender, EventArgs e)
         {
-            var url = @"http://truyentranhtuan.com/danh-sach-truyen/";
             mainViewMangaListModel = new List<ListViewItem>();
-            homePageViewModel = _cartoonService.ParseMainPageContent(url);
+            homePageViewModel = _cartoonService.ParseMainPageContent();
             var homePageModelProps = typeof(Manga)
                 .GetProperties().OrderBy(o => o.Name).Where(q => q.Name != "Name" && q.PropertyType == typeof(string)).ToList();
             homePageViewModel.MangaList.ForEach(x =>
@@ -62,17 +64,17 @@ namespace myCartoonZip
 
         private void LoadChaptersHandler(object sender, EventArgs e)
         {
-            if (this.listView1.SelectedItems.Count == 0)
+            if (this.mangaListView.SelectedItems.Count == 0)
             {
                 MessageBox.Show("No item selected", "Error",
                     MessageBoxButtons.OK);
             }
             else
             {
-                var selectedTruyen = this.listView1.SelectedItems[0];
-                foreach (ListViewItem i in this.listView2.Items)
+                var selectedTruyen = this.mangaListView.SelectedItems[0];
+                foreach (ListViewItem i in this.chapterListView.Items)
                 {
-                    this.listView2.Items.Remove(i);
+                    this.chapterListView.Items.Remove(i);
                 }
                 var url = selectedTruyen.SubItems[3].Text;
                 truyenPageModel = _cartoonService.ParseChapterPage(url);
@@ -87,7 +89,7 @@ namespace myCartoonZip
                         var val = i.GetValue(x, null).ToString();
                         addedItem.SubItems.Add(val);
                     });
-                    this.listView2.Items.AddRange(new ListViewItem[] {
+                    this.chapterListView.Items.AddRange(new ListViewItem[] {
                      addedItem
                     });
                 });
@@ -100,7 +102,7 @@ namespace myCartoonZip
             this.DisplayedResult = new List<string>();
 
             var locationOnDisk = this.textBox2.Text;
-            if (string.IsNullOrEmpty(locationOnDisk) || this.listView2.SelectedItems.Count == 0)
+            if (string.IsNullOrEmpty(locationOnDisk) || this.chapterListView.SelectedItems.Count == 0)
             {
                 MessageBox.Show(string.IsNullOrEmpty(locationOnDisk) ? "Empty Save Directory" : "Please select Manga to Download", "Error",
                            MessageBoxButtons.OK);
@@ -110,7 +112,7 @@ namespace myCartoonZip
                 try
                 {
 
-                    foreach (ListViewItem selectedTruyen in this.listView2.SelectedItems)
+                    foreach (ListViewItem selectedTruyen in this.chapterListView.SelectedItems)
                     {
                         var url = selectedTruyen.SubItems[1].Text;
                         var saveDir = locationOnDisk + '\\' + selectedTruyen.SubItems[0].Text.Replace(":","_");
@@ -150,8 +152,8 @@ namespace myCartoonZip
         private void SetListMangaToView(List<ListViewItem> mangaList)
         {
             var searchText = textBox1.Text;
-            this.listView1.Items.Clear();
-            this.listView1.Items.AddRange(mangaList.Where(q => q.Text.ToLower().Contains(searchText)).ToArray());
+            this.mangaListView.Items.Clear();
+            this.mangaListView.Items.AddRange(mangaList.Where(q => q.Text.ToLower().Contains(searchText)).ToArray());
         }
 
         private void BackgroundDoWork(object sender, DoWorkEventArgs e)
@@ -181,6 +183,44 @@ namespace myCartoonZip
             richTextBox1.Text = "Begin download" + string.Join("\r\n", DisplayedResult.OrderBy(s => s).ToArray());
         }
 
+        private void blogTruyenClicked(object sender, EventArgs e)
+        {
+            
+            if ( string.IsNullOrEmpty( this.blogTruyenUrl.Text) )
+            {
+                MessageBox.Show("No Blog Truyen link!", "Error",
+                    MessageBoxButtons.OK);
+            }
+            else
+            {
+                this._resetChapterListView();
+                var url = this.blogTruyenUrl.Text;
+                truyenPageModel = blogTruyenService.ParseChapterPage(url);
+                var truyenPageProp = typeof(Chapter)
+                    .GetProperties().OrderBy(o => o.Name)
+                    .Where(q => q.Name != "Name").ToList();
+                truyenPageModel.ChapterList.ForEach(x =>
+                {
+                    var addedItem = new ListViewItem(x.Name, 0);
+                    truyenPageProp.ForEach(i =>
+                    {
+                        var val = i.GetValue(x, null).ToString();
+                        addedItem.SubItems.Add(val);
+                    });
+                    this.chapterListView.Items.AddRange(new ListViewItem[] {
+                     addedItem
+                    });
+                });
+            }
+        }
+
+        private void _resetChapterListView()
+        {
+            foreach (ListViewItem i in this.chapterListView.Items)
+            {
+                this.chapterListView.Items.Remove(i);
+            }
+        }
     }
 }
 

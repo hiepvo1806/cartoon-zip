@@ -25,7 +25,7 @@ namespace myCartoonZip
             var sp = serviceCollection.BuildServiceProvider();
             var cartoonService = sp.GetService<ICartoonService>();
             var logService = sp.GetService<ILogService<List<ListViewItem>>>();
-            Application.Run(new Form1(cartoonService, logService));
+            Application.Run(new Form1(cartoonService, logService,sp));
         }
 
         static private void ConfigureServices(IServiceCollection serviceCollection)

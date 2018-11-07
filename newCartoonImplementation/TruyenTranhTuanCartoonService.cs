@@ -10,6 +10,7 @@ namespace newCartoonImplementation
 {
     public class TruyenTranhTuanCartoonService : ICartoonService
     {
+        private string mangaProviderUrl = @"http://truyentranhtuan.com/danh-sach-truyen/";
         private ILogService<Site> _logger;
         public TruyenTranhTuanCartoonService(ILogService<Site> logService)
         {
@@ -17,10 +18,10 @@ namespace newCartoonImplementation
         }
 
         //Main HomePage Content 
-        public Site ParseMainPageContent(string url)
+        public Site ParseMainPageContent()
         {
             var web = new HtmlWeb();
-            var document = web.Load(url);
+            var document = web.Load(mangaProviderUrl);
             var page = document.DocumentNode;
             var result = new Site();
             result.MangaList = new List<Manga>();

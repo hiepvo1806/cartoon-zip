@@ -4,7 +4,7 @@ namespace NewCartoonInterfaces
 {
     public interface ICartoonService
     {
-        Site ParseMainPageContent(string url);
+        Site ParseMainPageContent();
         Manga ParseChapterPage(string url);
         string DownloadChapter(string locationOnDisk,string url);
     }
