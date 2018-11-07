@@ -221,6 +221,11 @@ namespace myCartoonZip
                 this.TTTchapterListView.Items.Remove(i);
             }
         }
+
+        private void TTTTabPage_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

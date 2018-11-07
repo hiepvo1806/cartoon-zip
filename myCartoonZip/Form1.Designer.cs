@@ -66,45 +66,49 @@ namespace myCartoonZip
             this.mangaFormTab = new System.Windows.Forms.TabControl();
             this.TTTTabPage = new System.Windows.Forms.TabPage();
             this.BlogTruyenTabPage = new System.Windows.Forms.TabPage();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).BeginInit();
             this.TTTGroupbox.SuspendLayout();
             this.blogTruyenGroupBox.SuspendLayout();
             this.mangaFormTab.SuspendLayout();
+            this.TTTTabPage.SuspendLayout();
+            this.BlogTruyenTabPage.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TTTSearchLabel
             // 
             this.TTTSearchLabel.AutoSize = true;
             this.TTTSearchLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TTTSearchLabel.Location = new System.Drawing.Point(362, 269);
-            this.TTTSearchLabel.Name = "label1";
+            this.TTTSearchLabel.Location = new System.Drawing.Point(6, 22);
+            this.TTTSearchLabel.Name = "TTTSearchLabel";
             this.TTTSearchLabel.Size = new System.Drawing.Size(75, 25);
             this.TTTSearchLabel.TabIndex = 0;
             this.TTTSearchLabel.Text = "Search";
             // 
             // TTTSearchTextbox
             // 
-            this.TTTSearchTextbox.Location = new System.Drawing.Point(445, 274);
-            this.TTTSearchTextbox.Name = "textBox1";
-            this.TTTSearchTextbox.Size = new System.Drawing.Size(210, 20);
+            this.TTTSearchTextbox.Location = new System.Drawing.Point(89, 27);
+            this.TTTSearchTextbox.Name = "TTTSearchTextbox";
+            this.TTTSearchTextbox.Size = new System.Drawing.Size(264, 20);
             this.TTTSearchTextbox.TabIndex = 1;
             this.TTTSearchTextbox.TextChanged += new System.EventHandler(this.SearchTextChangedHandler);
             // 
             // TTTLoadFromUrlBtn
             // 
-            this.TTTLoadFromUrlBtn.Location = new System.Drawing.Point(305, 16);
-            this.TTTLoadFromUrlBtn.Name = "button1";
+            this.TTTLoadFromUrlBtn.Location = new System.Drawing.Point(359, 15);
+            this.TTTLoadFromUrlBtn.Name = "TTTLoadFromUrlBtn";
             this.TTTLoadFromUrlBtn.Size = new System.Drawing.Size(102, 42);
             this.TTTLoadFromUrlBtn.TabIndex = 2;
             this.TTTLoadFromUrlBtn.Text = "Load from Url";
             this.TTTLoadFromUrlBtn.UseVisualStyleBackColor = true;
             this.TTTLoadFromUrlBtn.Click += new System.EventHandler(this.LoadButtonFromURLHanlder);
             // 
-            // richTextBox1
+            // TTTStatusDownloadLogTextBox
             // 
-            this.TTTStatusDownloadLogTextBox.Location = new System.Drawing.Point(902, 493);
-            this.TTTStatusDownloadLogTextBox.Name = "richTextBox1";
+            this.TTTStatusDownloadLogTextBox.Location = new System.Drawing.Point(26, 25);
+            this.TTTStatusDownloadLogTextBox.Name = "TTTStatusDownloadLogTextBox";
             this.TTTStatusDownloadLogTextBox.Size = new System.Drawing.Size(374, 157);
             this.TTTStatusDownloadLogTextBox.TabIndex = 3;
             this.TTTStatusDownloadLogTextBox.Text = "";
@@ -112,12 +116,12 @@ namespace myCartoonZip
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(380, 313);
+            this.label3.Location = new System.Drawing.Point(41, 91);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(0, 13);
             this.label3.TabIndex = 5;
             // 
-            // mangaListView
+            // TTTMangaListView
             // 
             this.TTTMangaListView.AllowColumnReorder = true;
             this.TTTMangaListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -128,9 +132,9 @@ namespace myCartoonZip
             this.TTTMangaListView.FullRowSelect = true;
             this.TTTMangaListView.GridLines = true;
             this.TTTMangaListView.HideSelection = false;
-            this.TTTMangaListView.Location = new System.Drawing.Point(365, 321);
-            this.TTTMangaListView.Name = "mangaListView";
-            this.TTTMangaListView.Size = new System.Drawing.Size(506, 329);
+            this.TTTMangaListView.Location = new System.Drawing.Point(26, 99);
+            this.TTTMangaListView.Name = "TTTMangaListView";
+            this.TTTMangaListView.Size = new System.Drawing.Size(568, 434);
             this.TTTMangaListView.TabIndex = 6;
             this.TTTMangaListView.UseCompatibleStateImageBehavior = false;
             this.TTTMangaListView.View = System.Windows.Forms.View.Details;
@@ -155,53 +159,53 @@ namespace myCartoonZip
             this.columnHeader4.Text = "url";
             this.columnHeader4.Width = 400;
             // 
-            // button2
+            // TTTLoadChapterBtn
             // 
-            this.TTTLoadChapterBtn.Location = new System.Drawing.Point(769, 262);
-            this.TTTLoadChapterBtn.Name = "button2";
+            this.TTTLoadChapterBtn.Location = new System.Drawing.Point(467, 15);
+            this.TTTLoadChapterBtn.Name = "TTTLoadChapterBtn";
             this.TTTLoadChapterBtn.Size = new System.Drawing.Size(95, 42);
             this.TTTLoadChapterBtn.TabIndex = 7;
             this.TTTLoadChapterBtn.Text = "Load Chapters";
             this.TTTLoadChapterBtn.UseVisualStyleBackColor = true;
             this.TTTLoadChapterBtn.Click += new System.EventHandler(this.LoadChaptersHandler);
             // 
-            // button3
+            // TTTDownloadChapterBtn
             // 
-            this.TTTDownloadChapterBtn.Location = new System.Drawing.Point(872, 102);
-            this.TTTDownloadChapterBtn.Name = "button3";
+            this.TTTDownloadChapterBtn.Location = new System.Drawing.Point(639, 44);
+            this.TTTDownloadChapterBtn.Name = "TTTDownloadChapterBtn";
             this.TTTDownloadChapterBtn.Size = new System.Drawing.Size(151, 23);
             this.TTTDownloadChapterBtn.TabIndex = 8;
             this.TTTDownloadChapterBtn.Text = "Download Chapters";
             this.TTTDownloadChapterBtn.UseVisualStyleBackColor = true;
             this.TTTDownloadChapterBtn.Click += new System.EventHandler(this.DownloadChaptersHandler);
             // 
-            // label2
+            // TTTUrlToSaveLabel
             // 
             this.TTTUrlToSaveLabel.AutoSize = true;
-            this.TTTUrlToSaveLabel.Location = new System.Drawing.Point(852, 132);
-            this.TTTUrlToSaveLabel.Name = "label2";
+            this.TTTUrlToSaveLabel.Location = new System.Drawing.Point(640, 76);
+            this.TTTUrlToSaveLabel.Name = "TTTUrlToSaveLabel";
             this.TTTUrlToSaveLabel.Size = new System.Drawing.Size(58, 13);
             this.TTTUrlToSaveLabel.TabIndex = 9;
             this.TTTUrlToSaveLabel.Text = "Url to save";
             // 
-            // textBox2
+            // TTTUrlToSaveTextbox
             // 
-            this.TTTUrlToSaveTextbox.Location = new System.Drawing.Point(936, 129);
-            this.TTTUrlToSaveTextbox.Name = "textBox2";
+            this.TTTUrlToSaveTextbox.Location = new System.Drawing.Point(724, 73);
+            this.TTTUrlToSaveTextbox.Name = "TTTUrlToSaveTextbox";
             this.TTTUrlToSaveTextbox.Size = new System.Drawing.Size(264, 20);
             this.TTTUrlToSaveTextbox.TabIndex = 10;
             // 
-            // button4
+            // TTTUrlToSaveBtn
             // 
-            this.TTTUrlToSaveBtn.Location = new System.Drawing.Point(1206, 128);
-            this.TTTUrlToSaveBtn.Name = "button4";
+            this.TTTUrlToSaveBtn.Location = new System.Drawing.Point(994, 72);
+            this.TTTUrlToSaveBtn.Name = "TTTUrlToSaveBtn";
             this.TTTUrlToSaveBtn.Size = new System.Drawing.Size(30, 20);
             this.TTTUrlToSaveBtn.TabIndex = 11;
             this.TTTUrlToSaveBtn.Text = "...";
             this.TTTUrlToSaveBtn.UseVisualStyleBackColor = true;
             this.TTTUrlToSaveBtn.Click += new System.EventHandler(this.SelectUrlToSaveChaps);
             // 
-            // chapterListView
+            // TTTchapterListView
             // 
             this.TTTchapterListView.AllowColumnReorder = true;
             this.TTTchapterListView.CheckBoxes = true;
@@ -211,9 +215,9 @@ namespace myCartoonZip
             this.columnHeader6});
             this.TTTchapterListView.FullRowSelect = true;
             this.TTTchapterListView.GridLines = true;
-            this.TTTchapterListView.Location = new System.Drawing.Point(902, 151);
-            this.TTTchapterListView.Name = "chapterListView";
-            this.TTTchapterListView.Size = new System.Drawing.Size(374, 329);
+            this.TTTchapterListView.Location = new System.Drawing.Point(639, 99);
+            this.TTTchapterListView.Name = "TTTchapterListView";
+            this.TTTchapterListView.Size = new System.Drawing.Size(436, 434);
             this.TTTchapterListView.TabIndex = 12;
             this.TTTchapterListView.UseCompatibleStateImageBehavior = false;
             this.TTTchapterListView.View = System.Windows.Forms.View.Details;
@@ -237,31 +241,34 @@ namespace myCartoonZip
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundDoWork);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BackgroundComplete);
             // 
-            // groupBox1
+            // TTTGroupbox
             // 
             this.TTTGroupbox.Controls.Add(this.TTTLoadFromUrlBtn);
-            this.TTTGroupbox.Location = new System.Drawing.Point(356, 246);
-            this.TTTGroupbox.Name = "groupBox1";
-            this.TTTGroupbox.Size = new System.Drawing.Size(515, 64);
+            this.TTTGroupbox.Controls.Add(this.TTTLoadChapterBtn);
+            this.TTTGroupbox.Controls.Add(this.TTTSearchLabel);
+            this.TTTGroupbox.Controls.Add(this.TTTSearchTextbox);
+            this.TTTGroupbox.Location = new System.Drawing.Point(26, 24);
+            this.TTTGroupbox.Name = "TTTGroupbox";
+            this.TTTGroupbox.Size = new System.Drawing.Size(568, 64);
             this.TTTGroupbox.TabIndex = 13;
             this.TTTGroupbox.TabStop = false;
             this.TTTGroupbox.Text = "Truyen Tranh Tuan";
             // 
-            // groupBox2
+            // blogTruyenGroupBox
             // 
             this.blogTruyenGroupBox.Controls.Add(this.blogTruyenLoadChapterBtn);
             this.blogTruyenGroupBox.Controls.Add(this.blogTruyenUrl);
-            this.blogTruyenGroupBox.Location = new System.Drawing.Point(356, 164);
-            this.blogTruyenGroupBox.Name = "groupBox2";
+            this.blogTruyenGroupBox.Location = new System.Drawing.Point(18, 18);
+            this.blogTruyenGroupBox.Name = "blogTruyenGroupBox";
             this.blogTruyenGroupBox.Size = new System.Drawing.Size(515, 64);
             this.blogTruyenGroupBox.TabIndex = 14;
             this.blogTruyenGroupBox.TabStop = false;
             this.blogTruyenGroupBox.Text = "blog truyen";
             // 
-            // button5
+            // blogTruyenLoadChapterBtn
             // 
-            this.blogTruyenLoadChapterBtn.Location = new System.Drawing.Point(319, 15);
-            this.blogTruyenLoadChapterBtn.Name = "button5";
+            this.blogTruyenLoadChapterBtn.Location = new System.Drawing.Point(320, 15);
+            this.blogTruyenLoadChapterBtn.Name = "blogTruyenLoadChapterBtn";
             this.blogTruyenLoadChapterBtn.Size = new System.Drawing.Size(189, 43);
             this.blogTruyenLoadChapterBtn.TabIndex = 1;
             this.blogTruyenLoadChapterBtn.Text = "Load chapter";
@@ -270,71 +277,84 @@ namespace myCartoonZip
             // 
             // blogTruyenUrl
             // 
-            this.blogTruyenUrl.Location = new System.Drawing.Point(9, 27);
+            this.blogTruyenUrl.Location = new System.Drawing.Point(6, 29);
             this.blogTruyenUrl.Name = "blogTruyenUrl";
             this.blogTruyenUrl.Size = new System.Drawing.Size(288, 20);
             this.blogTruyenUrl.TabIndex = 0;
             // 
-            // tabControl1
+            // mangaFormTab
             // 
             this.mangaFormTab.Controls.Add(this.TTTTabPage);
             this.mangaFormTab.Controls.Add(this.BlogTruyenTabPage);
-            this.mangaFormTab.Location = new System.Drawing.Point(13, 32);
-            this.mangaFormTab.Name = "tabControl1";
+            this.mangaFormTab.Controls.Add(this.tabPage1);
+            this.mangaFormTab.Location = new System.Drawing.Point(24, 23);
+            this.mangaFormTab.Name = "mangaFormTab";
             this.mangaFormTab.SelectedIndex = 0;
-            this.mangaFormTab.Size = new System.Drawing.Size(335, 432);
+            this.mangaFormTab.Size = new System.Drawing.Size(1105, 591);
             this.mangaFormTab.TabIndex = 15;
             // 
             // TTTTabPage
             // 
+            this.TTTTabPage.Controls.Add(this.TTTMangaListView);
+            this.TTTTabPage.Controls.Add(this.TTTchapterListView);
+            this.TTTTabPage.Controls.Add(this.TTTUrlToSaveBtn);
+            this.TTTTabPage.Controls.Add(this.TTTGroupbox);
+            this.TTTTabPage.Controls.Add(this.TTTUrlToSaveTextbox);
+            this.TTTTabPage.Controls.Add(this.TTTUrlToSaveLabel);
+            this.TTTTabPage.Controls.Add(this.label3);
+            this.TTTTabPage.Controls.Add(this.TTTDownloadChapterBtn);
             this.TTTTabPage.Location = new System.Drawing.Point(4, 22);
-            this.TTTTabPage.Name = "tabPage1";
+            this.TTTTabPage.Name = "TTTTabPage";
             this.TTTTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.TTTTabPage.Size = new System.Drawing.Size(327, 406);
+            this.TTTTabPage.Size = new System.Drawing.Size(1097, 565);
             this.TTTTabPage.TabIndex = 0;
             this.TTTTabPage.Text = "Truyen Tranh Tuan";
             this.TTTTabPage.UseVisualStyleBackColor = true;
+            this.TTTTabPage.Click += new System.EventHandler(this.TTTTabPage_Click);
             // 
-            // tabPage2
+            // BlogTruyenTabPage
             // 
+            this.BlogTruyenTabPage.Controls.Add(this.blogTruyenGroupBox);
             this.BlogTruyenTabPage.Location = new System.Drawing.Point(4, 22);
-            this.BlogTruyenTabPage.Name = "tabPage2";
+            this.BlogTruyenTabPage.Name = "BlogTruyenTabPage";
             this.BlogTruyenTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.BlogTruyenTabPage.Size = new System.Drawing.Size(192, 74);
+            this.BlogTruyenTabPage.Size = new System.Drawing.Size(1097, 565);
             this.BlogTruyenTabPage.TabIndex = 1;
             this.BlogTruyenTabPage.Text = "Blog Truyen";
             this.BlogTruyenTabPage.UseVisualStyleBackColor = true;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.TTTStatusDownloadLogTextBox);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1097, 565);
+            this.tabPage1.TabIndex = 2;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1305, 774);
+            this.ClientSize = new System.Drawing.Size(1162, 640);
             this.Controls.Add(this.mangaFormTab);
-            this.Controls.Add(this.blogTruyenGroupBox);
-            this.Controls.Add(this.TTTSearchTextbox);
-            this.Controls.Add(this.TTTSearchLabel);
-            this.Controls.Add(this.TTTchapterListView);
-            this.Controls.Add(this.TTTLoadChapterBtn);
-            this.Controls.Add(this.TTTUrlToSaveBtn);
-            this.Controls.Add(this.TTTUrlToSaveTextbox);
-            this.Controls.Add(this.TTTUrlToSaveLabel);
-            this.Controls.Add(this.TTTDownloadChapterBtn);
-            this.Controls.Add(this.TTTMangaListView);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.TTTStatusDownloadLogTextBox);
-            this.Controls.Add(this.TTTGroupbox);
             this.Name = "Form1";
             this.Text = "My Cartooon Zip";
             this.Load += new System.EventHandler(this.FormLoad);
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).EndInit();
             this.TTTGroupbox.ResumeLayout(false);
+            this.TTTGroupbox.PerformLayout();
             this.blogTruyenGroupBox.ResumeLayout(false);
             this.blogTruyenGroupBox.PerformLayout();
             this.mangaFormTab.ResumeLayout(false);
+            this.TTTTabPage.ResumeLayout(false);
+            this.TTTTabPage.PerformLayout();
+            this.BlogTruyenTabPage.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -370,6 +390,7 @@ namespace myCartoonZip
         private TabControl mangaFormTab;
         private TabPage TTTTabPage;
         private TabPage BlogTruyenTabPage;
+        private TabPage tabPage1;
     }
 }
 
