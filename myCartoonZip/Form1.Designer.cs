@@ -38,7 +38,7 @@ namespace myCartoonZip
             this.components = new System.ComponentModel.Container();
             this.TTTSearchLabel = new System.Windows.Forms.Label();
             this.TTTSearchTextbox = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.TTTLoadFromUrlBtn = new System.Windows.Forms.Button();
             this.TTTStatusDownloadLogTextBox = new System.Windows.Forms.RichTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -61,7 +61,7 @@ namespace myCartoonZip
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.TTTGroupbox = new System.Windows.Forms.GroupBox();
             this.blogTruyenGroupBox = new System.Windows.Forms.GroupBox();
-            this.button5 = new System.Windows.Forms.Button();
+            this.blogTruyenLoadChapterBtn = new System.Windows.Forms.Button();
             this.blogTruyenUrl = new System.Windows.Forms.TextBox();
             this.mangaFormTab = new System.Windows.Forms.TabControl();
             this.TTTTabPage = new System.Windows.Forms.TabPage();
@@ -73,7 +73,7 @@ namespace myCartoonZip
             this.mangaFormTab.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // TTTSearchLabel
             // 
             this.TTTSearchLabel.AutoSize = true;
             this.TTTSearchLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -83,7 +83,7 @@ namespace myCartoonZip
             this.TTTSearchLabel.TabIndex = 0;
             this.TTTSearchLabel.Text = "Search";
             // 
-            // textBox1
+            // TTTSearchTextbox
             // 
             this.TTTSearchTextbox.Location = new System.Drawing.Point(445, 274);
             this.TTTSearchTextbox.Name = "textBox1";
@@ -91,15 +91,15 @@ namespace myCartoonZip
             this.TTTSearchTextbox.TabIndex = 1;
             this.TTTSearchTextbox.TextChanged += new System.EventHandler(this.SearchTextChangedHandler);
             // 
-            // button1
+            // TTTLoadFromUrlBtn
             // 
-            this.button1.Location = new System.Drawing.Point(305, 16);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(102, 42);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Load from Url";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.LoadButtonFromURLHanlder);
+            this.TTTLoadFromUrlBtn.Location = new System.Drawing.Point(305, 16);
+            this.TTTLoadFromUrlBtn.Name = "button1";
+            this.TTTLoadFromUrlBtn.Size = new System.Drawing.Size(102, 42);
+            this.TTTLoadFromUrlBtn.TabIndex = 2;
+            this.TTTLoadFromUrlBtn.Text = "Load from Url";
+            this.TTTLoadFromUrlBtn.UseVisualStyleBackColor = true;
+            this.TTTLoadFromUrlBtn.Click += new System.EventHandler(this.LoadButtonFromURLHanlder);
             // 
             // richTextBox1
             // 
@@ -239,7 +239,7 @@ namespace myCartoonZip
             // 
             // groupBox1
             // 
-            this.TTTGroupbox.Controls.Add(this.button1);
+            this.TTTGroupbox.Controls.Add(this.TTTLoadFromUrlBtn);
             this.TTTGroupbox.Location = new System.Drawing.Point(356, 246);
             this.TTTGroupbox.Name = "groupBox1";
             this.TTTGroupbox.Size = new System.Drawing.Size(515, 64);
@@ -249,7 +249,7 @@ namespace myCartoonZip
             // 
             // groupBox2
             // 
-            this.blogTruyenGroupBox.Controls.Add(this.button5);
+            this.blogTruyenGroupBox.Controls.Add(this.blogTruyenLoadChapterBtn);
             this.blogTruyenGroupBox.Controls.Add(this.blogTruyenUrl);
             this.blogTruyenGroupBox.Location = new System.Drawing.Point(356, 164);
             this.blogTruyenGroupBox.Name = "groupBox2";
@@ -260,13 +260,13 @@ namespace myCartoonZip
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(319, 15);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(189, 43);
-            this.button5.TabIndex = 1;
-            this.button5.Text = "Load chapter";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.blogTruyenClicked);
+            this.blogTruyenLoadChapterBtn.Location = new System.Drawing.Point(319, 15);
+            this.blogTruyenLoadChapterBtn.Name = "button5";
+            this.blogTruyenLoadChapterBtn.Size = new System.Drawing.Size(189, 43);
+            this.blogTruyenLoadChapterBtn.TabIndex = 1;
+            this.blogTruyenLoadChapterBtn.Text = "Load chapter";
+            this.blogTruyenLoadChapterBtn.UseVisualStyleBackColor = true;
+            this.blogTruyenLoadChapterBtn.Click += new System.EventHandler(this.blogTruyenClicked);
             // 
             // blogTruyenUrl
             // 
@@ -285,14 +285,14 @@ namespace myCartoonZip
             this.mangaFormTab.Size = new System.Drawing.Size(335, 432);
             this.mangaFormTab.TabIndex = 15;
             // 
-            // tabPage1
+            // TTTTabPage
             // 
             this.TTTTabPage.Location = new System.Drawing.Point(4, 22);
             this.TTTTabPage.Name = "tabPage1";
             this.TTTTabPage.Padding = new System.Windows.Forms.Padding(3);
             this.TTTTabPage.Size = new System.Drawing.Size(327, 406);
             this.TTTTabPage.TabIndex = 0;
-            this.TTTTabPage.Text = "tabPage1";
+            this.TTTTabPage.Text = "Truyen Tranh Tuan";
             this.TTTTabPage.UseVisualStyleBackColor = true;
             // 
             // tabPage2
@@ -302,7 +302,7 @@ namespace myCartoonZip
             this.BlogTruyenTabPage.Padding = new System.Windows.Forms.Padding(3);
             this.BlogTruyenTabPage.Size = new System.Drawing.Size(192, 74);
             this.BlogTruyenTabPage.TabIndex = 1;
-            this.BlogTruyenTabPage.Text = "tabPage2";
+            this.BlogTruyenTabPage.Text = "Blog Truyen";
             this.BlogTruyenTabPage.UseVisualStyleBackColor = true;
             // 
             // Form1
@@ -342,7 +342,7 @@ namespace myCartoonZip
 
         private System.Windows.Forms.Label TTTSearchLabel;
         private System.Windows.Forms.TextBox TTTSearchTextbox;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button TTTLoadFromUrlBtn;
         private System.Windows.Forms.RichTextBox TTTStatusDownloadLogTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.BindingSource form1BindingSource1;
@@ -365,7 +365,7 @@ namespace myCartoonZip
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private GroupBox TTTGroupbox;
         private GroupBox blogTruyenGroupBox;
-        private Button button5;
+        private Button blogTruyenLoadChapterBtn;
         private TextBox blogTruyenUrl;
         private TabControl mangaFormTab;
         private TabPage TTTTabPage;
