@@ -14,6 +14,7 @@ namespace newCartoonImplementation
     {
         private readonly ILogService<Site> _logger;
         //private string mangaProviderUrl = @"http://truyentranhtuan.com/danh-sach-truyen/";
+        private string mainUrl = "https://blogtruyen.com";
         public BlogTruyenCartoonService(ILogService<Site> logService)
         {
             _logger = logService;
@@ -27,42 +28,36 @@ namespace newCartoonImplementation
                 {
                     client.Headers["User-Agent"] = "Mozilla/5.0 (Windows; U; MSIE 9.0; Windows NT 9.0; en-US)";
                     string downloadString = client.DownloadString(url);
-                    var parseResultType1 = RenderType1(downloadString)
-                        .Split(',')
-                        .Select(s => s.Trim(',', '\"')).ToArray();
-                    for (var i = 0; i < Math.Max(parseResultType1.Length, 0); i++)
+                    var imgLinkArr = ParseFullPageHtmlToLinkArr(downloadString);
+
+                    for (var i = 0; i < Math.Max(imgLinkArr.Length, 0); i++)
                     {
-                        string link;
+                        string imgLink;
                         var isDownloaded = false;
                         var downloadTry = 0;
-                        link = parseResultType1[i];
+                        imgLink = imgLinkArr[i];
                         while (!isDownloaded && downloadTry < 2)
                         {
                             string fileName = "";
-                            
                             try
                             {
-                                if (isSortByOrder==true)
+                                fileName = imgLink.Split('/').Last();
+                                fileName = fileName.Split(' ', '?', '/').First();
+                                if (isSortByOrder == true)
                                 {
-                                    fileName = link.Split('/').Last();
-                                    fileName = fileName.Split(' ', '?', '/').First();
-                                    fileName = i.ToString()+ '.' + fileName.Split('.').Last();
-                                }
-                                else
-                                {
-                                    fileName = link.Split('/').Last();
-                                    fileName = fileName.Split(' ', '?', '/').First();
+                                    fileName = i.ToString() + '.' + fileName.Split('.').Last();
                                 }
 
                                 var location = string.Format(@"{0}\{1}", locationOnDisk,
                                         fileName);
 
-                                client.DownloadFile(new Uri(link),
+                                client.DownloadFile(new Uri(imgLink),
                                     $@"{locationOnDisk}\{fileName}");
                                 isDownloaded = true;
                             }
                             catch (Exception e)
                             {
+                                fileError += e.Message + "\r\n";
                                 _logger.WriteCurrentLog(e.Message);
                             }
                         }
@@ -73,13 +68,13 @@ namespace newCartoonImplementation
                 {
                     _logger.WriteCurrentLog(e.Message);
                 }
-                
+
             }
 
             return string.IsNullOrEmpty(fileError) ? fileError : "Error in these pic:" + fileError;
         }
 
-        private string RenderType1(string inputFullHtml)
+        private string[] ParseFullPageHtmlToLinkArr(string inputFullHtml)
         {
             try
             {
@@ -87,12 +82,14 @@ namespace newCartoonImplementation
                 var beginString = "<article id=\"content\">";
                 var a = inputFullHtml.IndexOf(beginString);
                 var b = inputFullHtml.Remove(0, a + beginString.Length);
-                var c =  b.Remove(b.IndexOf("</article>"));
-                return c.Replace("<img src=", "").Replace("/>", ",").Replace("\"", "");
+                var c = b.Remove(b.IndexOf("</article>"));
+                var d = c.Replace("<img src=", "").Replace("/>", ",").Replace("\"", "");
+                return d.Split(',')
+                        .Select(s => s.Trim(',', '\"')).ToArray();
             }
             catch
             {
-                return "";
+                return (new List<string>()).ToArray();
             }
         }
 
@@ -111,7 +108,7 @@ namespace newCartoonImplementation
                 result.ChapterList.Add(new Chapter
                 {
                     Name = chapterName,
-                    ChapterUrl = "https://blogtruyen.com"+ chapterUrl,
+                    ChapterUrl = mainUrl + chapterUrl,
                     ModifiedDate = ""
                 });
             }

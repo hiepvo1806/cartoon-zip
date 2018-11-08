@@ -68,7 +68,7 @@ namespace newCartoonImplementation
             foreach (var chapterElement in allChapterElements.SelectNodes("//span[contains(@class, 'chapter-name')]"))
             {
                 var chapterName = chapterElement.InnerText.Trim(' ', '\r', '\n');
-                var chapterUrl = chapterElement.ChildNodes.FirstOrDefault(q=>q.Name=="a").Attributes[0].Value;
+                var chapterUrl = chapterElement.ChildNodes.FirstOrDefault(q => q.Name == "a").Attributes[0].Value;
                 result.ChapterList.Add(new Chapter
                 {
                     Name = chapterName,
@@ -79,7 +79,7 @@ namespace newCartoonImplementation
             return result;
         }
 
-        public string DownloadChapter(string locationOnDisk,string url, bool? isSortByOrder = false)
+        public string DownloadChapter(string locationOnDisk, string url, bool? isSortByOrder = false)
         {
             string fileError = "";
             using (WebClient client = new WebClient())
@@ -87,44 +87,45 @@ namespace newCartoonImplementation
                 string downloadString = client.DownloadString(url);
                 var allLink = new List<string>();
 
-                var parseResultType1 = RenderType1(downloadString)
-                    .Split(',')
-                    .Select(s=> s.Trim(',', '\"')).ToArray();
-                var parseResultType2 = RenderType2(downloadString)
-                    .Split(',')
-                    .Select(s => s.Trim(',', '\"')).ToArray();
+                var parseToLinkArrType1 = RenderType1(downloadString);
+                var parseToLinkArrType2 = RenderType2(downloadString);
 
-                var duplicateFile = parseResultType1
+                var isDuplicateFileName = parseToLinkArrType1
                         .Select(s => s.Split('/').Last())
                         .GroupBy(s => s).Any(s => s.Count() > 1);
 
-                for (var i = 0; i < Math.Max(parseResultType1.Length, parseResultType2.Length); i++)
+                for (var i = 0; i < Math.Max(parseToLinkArrType1.Length, parseToLinkArrType2.Length); i++)
                 {
                     string link;
                     var isDownloaded = false;
                     var downloadTry = 0;
-                    link = parseResultType1[i];
-                    while (!isDownloaded && downloadTry<2)
+                    link = parseToLinkArrType1[i];
+                    while (!isDownloaded && downloadTry < 2)
                     {
                         string fileName = "";
                         try
                         {
                             fileName = link.Split('/').Last();
+                            fileName = fileName.Split(' ', '?', '/').First();
+                            if (isSortByOrder == true)
+                            {
+                                fileName = i.ToString() + '.' + fileName.Split('.').Last();
+                            }
                             var location =
-                                duplicateFile == false ?
+                                isDuplicateFileName == false ?
                                 string.Format(@"{0}\{1}", locationOnDisk,
-                                    fileName.Split(' ', '?', '/').First())
+                                    fileName)
                                 : string.Format(@"{0}\{1}_{2}", locationOnDisk,
-                                i, fileName.Split(' ', '?', '/').First());
+                                i, fileName);
 
                             client.DownloadFile(new Uri(link),
-                                $@"{locationOnDisk}\{fileName.Split(' ', '?', '/').First()}");
+                                $@"{locationOnDisk}\{fileName}");
                             isDownloaded = true;
                         }
-                        catch (Exception e)
+                        catch
                         {
-                            link = parseResultType2.FirstOrDefault(s=>s.IndexOf(fileName) !=-1);
-                            if(string.IsNullOrEmpty(link))
+                            link = parseToLinkArrType2.FirstOrDefault(s => s.IndexOf(fileName) != -1);
+                            if (string.IsNullOrEmpty(link))
                             {
                                 downloadTry = 1;
                                 fileError = "null link in parse 2 \r\n" + fileError;
@@ -135,44 +136,42 @@ namespace newCartoonImplementation
                     if (downloadTry == 2) fileError = "Try twice \r\n" + fileError;
                 }
             }
-            
-            return string.IsNullOrEmpty( fileError) ? fileError : "Error in these pic:" + fileError;
+
+            return string.IsNullOrEmpty(fileError) ? fileError : "Error in these pic:" + fileError;
         }
 
-        private string RenderType1 (string inputFullHtml)
+        private string[] RenderType1(string inputFullHtml)
         {
             try
             {
-                //var beginString = "var slides_page_url_path = [";
                 var beginString = "var slides_page_path = [";
                 var a = inputFullHtml.IndexOf(beginString);
                 var b = inputFullHtml.Remove(0, a + beginString.Length);
-                return b.Remove(b.IndexOf("\"]"));
+                var c = b.Remove(b.IndexOf("\"]"));
+                return c.Split(',')
+                    .Select(s => s.Trim(',', '\"')).ToArray();
             }
             catch
             {
-                return "";
+                return (new List<string>()).ToArray();
             }
-
-          
         }
 
-        private string RenderType2(string inputFullHtml)
+        private string[] RenderType2(string inputFullHtml)
         {
             try
             {
                 var beginString = "var slides_page_url_path = [";
-                //var beginString = "var slides_page_path = [";
                 var a = inputFullHtml.IndexOf(beginString);
                 var b = inputFullHtml.Remove(0, a + beginString.Length);
-                return b.Remove(b.IndexOf("\"]"));
+                var c = b.Remove(b.IndexOf("\"]"));
+                return c.Split(',')
+                    .Select(s => s.Trim(',', '\"')).ToArray();
             }
             catch
             {
-                return "";
+                return (new List<string>()).ToArray();
             }
-
         }
-
     }
 }
