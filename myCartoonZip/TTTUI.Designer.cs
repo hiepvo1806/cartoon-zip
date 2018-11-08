@@ -70,6 +70,9 @@ namespace myCartoonZip
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.BlogTruyenMangaFilterTextBox = new System.Windows.Forms.TextBox();
             this.BlogTruyenChapterFilterLabel = new System.Windows.Forms.Label();
+            this.chapterCountLabel = new System.Windows.Forms.Label();
+            this.chapterCountNo = new System.Windows.Forms.Label();
+            this.IsSortByOrder = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource1)).BeginInit();
             this.TTTGroupbox.SuspendLayout();
@@ -294,6 +297,7 @@ namespace myCartoonZip
             this.button2.TabIndex = 15;
             this.button2.Text = "Download Chapters";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.BlogTruyen_DownloadChapter);
             // 
             // mangaFormTab
             // 
@@ -344,7 +348,7 @@ namespace myCartoonZip
             // 
             // BlogTruyenMangaFilterTextBox
             // 
-            this.BlogTruyenMangaFilterTextBox.Location = new System.Drawing.Point(955, 96);
+            this.BlogTruyenMangaFilterTextBox.Location = new System.Drawing.Point(955, 83);
             this.BlogTruyenMangaFilterTextBox.Name = "BlogTruyenMangaFilterTextBox";
             this.BlogTruyenMangaFilterTextBox.Size = new System.Drawing.Size(264, 20);
             this.BlogTruyenMangaFilterTextBox.TabIndex = 21;
@@ -353,17 +357,48 @@ namespace myCartoonZip
             // BlogTruyenChapterFilterLabel
             // 
             this.BlogTruyenChapterFilterLabel.AutoSize = true;
-            this.BlogTruyenChapterFilterLabel.Location = new System.Drawing.Point(871, 97);
+            this.BlogTruyenChapterFilterLabel.Location = new System.Drawing.Point(871, 84);
             this.BlogTruyenChapterFilterLabel.Name = "BlogTruyenChapterFilterLabel";
             this.BlogTruyenChapterFilterLabel.Size = new System.Drawing.Size(69, 13);
             this.BlogTruyenChapterFilterLabel.TabIndex = 20;
             this.BlogTruyenChapterFilterLabel.Text = "Chapter Filter";
+            // 
+            // chapterCountLabel
+            // 
+            this.chapterCountLabel.AutoSize = true;
+            this.chapterCountLabel.Location = new System.Drawing.Point(871, 124);
+            this.chapterCountLabel.Name = "chapterCountLabel";
+            this.chapterCountLabel.Size = new System.Drawing.Size(81, 13);
+            this.chapterCountLabel.TabIndex = 22;
+            this.chapterCountLabel.Text = "Chapter Count :";
+            // 
+            // chapterCountNo
+            // 
+            this.chapterCountNo.AutoSize = true;
+            this.chapterCountNo.Location = new System.Drawing.Point(958, 124);
+            this.chapterCountNo.Name = "chapterCountNo";
+            this.chapterCountNo.Size = new System.Drawing.Size(13, 13);
+            this.chapterCountNo.TabIndex = 23;
+            this.chapterCountNo.Text = "0";
+            // 
+            // IsSortByOrder
+            // 
+            this.IsSortByOrder.AutoSize = true;
+            this.IsSortByOrder.Location = new System.Drawing.Point(1097, 120);
+            this.IsSortByOrder.Name = "IsSortByOrder";
+            this.IsSortByOrder.Size = new System.Drawing.Size(95, 17);
+            this.IsSortByOrder.TabIndex = 24;
+            this.IsSortByOrder.Text = "Is sort by order";
+            this.IsSortByOrder.UseVisualStyleBackColor = true;
             // 
             // MangaDownloadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1338, 667);
+            this.Controls.Add(this.IsSortByOrder);
+            this.Controls.Add(this.chapterCountNo);
+            this.Controls.Add(this.chapterCountLabel);
             this.Controls.Add(this.BlogTruyenMangaFilterTextBox);
             this.Controls.Add(this.TTTchapterListView);
             this.Controls.Add(this.mangaFormTab);
@@ -426,6 +461,9 @@ namespace myCartoonZip
         private Button button2;
         private Label BlogTruyenChapterFilterLabel;
         private TextBox BlogTruyenMangaFilterTextBox;
+        private Label chapterCountLabel;
+        private Label chapterCountNo;
+        private CheckBox IsSortByOrder;
     }
 }
 

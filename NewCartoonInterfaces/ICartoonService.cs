@@ -6,6 +6,6 @@ namespace NewCartoonInterfaces
     {
         Site ParseMainPageContent();
         Manga ParseChapterPage(string url);
-        string DownloadChapter(string locationOnDisk,string url);
+        string DownloadChapter(string locationOnDisk,string url, bool? isSortByOrder = false);
     }
 }

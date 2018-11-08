@@ -79,7 +79,7 @@ namespace newCartoonImplementation
             return result;
         }
 
-        public string DownloadChapter(string locationOnDisk,string url)
+        public string DownloadChapter(string locationOnDisk,string url, bool? isSortByOrder = false)
         {
             string fileError = "";
             using (WebClient client = new WebClient())

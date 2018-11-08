@@ -18,41 +18,62 @@ namespace newCartoonImplementation
         {
             _logger = logService;
         }
-        public string DownloadChapter(string locationOnDisk, string url)
+        public string DownloadChapter(string locationOnDisk, string url, bool? isSortByOrder = false)
         {
             string fileError = "";
             using (WebClient client = new WebClient())
             {
-                string downloadString = client.DownloadString(url);
-                var parseResultType1 = RenderType1(downloadString)
-                    .Split(',')
-                    .Select(s => s.Trim(',', '\"')).ToArray();
-                for (var i = 0; i < Math.Max(parseResultType1.Length, 0); i++)
+                try
                 {
-                    string link;
-                    var isDownloaded = false;
-                    var downloadTry = 0;
-                    link = parseResultType1[i];
-                    while (!isDownloaded && downloadTry < 2)
+                    client.Headers["User-Agent"] = "Mozilla/5.0 (Windows; U; MSIE 9.0; Windows NT 9.0; en-US)";
+                    string downloadString = client.DownloadString(url);
+                    var parseResultType1 = RenderType1(downloadString)
+                        .Split(',')
+                        .Select(s => s.Trim(',', '\"')).ToArray();
+                    for (var i = 0; i < Math.Max(parseResultType1.Length, 0); i++)
                     {
-                        string fileName = "";
-                        try
+                        string link;
+                        var isDownloaded = false;
+                        var downloadTry = 0;
+                        link = parseResultType1[i];
+                        while (!isDownloaded && downloadTry < 2)
                         {
-                            fileName = link.Split('/').Last();
-                            var location = string.Format(@"{0}\{1}", locationOnDisk,
-                                    fileName.Split(' ', '?', '/').First());
+                            string fileName = "";
+                            
+                            try
+                            {
+                                if (isSortByOrder==true)
+                                {
+                                    fileName = link.Split('/').Last();
+                                    fileName = fileName.Split(' ', '?', '/').First();
+                                    fileName = i.ToString()+ '.' + fileName.Split('.').Last();
+                                }
+                                else
+                                {
+                                    fileName = link.Split('/').Last();
+                                    fileName = fileName.Split(' ', '?', '/').First();
+                                }
 
-                            client.DownloadFile(new Uri(link),
-                                $@"{locationOnDisk}\{fileName.Split(' ', '?', '/').First()}");
-                            isDownloaded = true;
+                                var location = string.Format(@"{0}\{1}", locationOnDisk,
+                                        fileName);
+
+                                client.DownloadFile(new Uri(link),
+                                    $@"{locationOnDisk}\{fileName}");
+                                isDownloaded = true;
+                            }
+                            catch (Exception e)
+                            {
+                                _logger.WriteCurrentLog(e.Message);
+                            }
                         }
-                        catch (Exception e)
-                        {
-                            _logger.WriteCurrentLog(e.Message);
-                        }
+                        if (downloadTry == 2) fileError = "Try twice \r\n" + fileError;
                     }
-                    if (downloadTry == 2) fileError = "Try twice \r\n" + fileError;
                 }
+                catch (Exception e)
+                {
+                    _logger.WriteCurrentLog(e.Message);
+                }
+                
             }
 
             return string.IsNullOrEmpty(fileError) ? fileError : "Error in these pic:" + fileError;
