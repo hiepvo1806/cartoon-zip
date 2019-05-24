@@ -75,6 +75,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="TTTUI1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TTTUI.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\MangaCacheModel.cs" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Form1.datasource" />
@@ -105,6 +110,8 @@
   <ItemGroup>
     <EmbeddedResource Include="TTTUI.resx">
       <DependentUpon>TTTUI.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TTTUI1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

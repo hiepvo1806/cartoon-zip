@@ -164,7 +164,7 @@ namespace myCartoonZip
             MangaCacheModel inputManga = e.Argument as MangaCacheModel;
             e.Result = new
             {
-                result = _cartoonService.DownloadChapter(inputManga.saveDir, inputManga.url),
+                result = _cartoonService.DownloadChapter(inputManga.saveDir, inputManga.url, IsSortByOrder.Checked),
                 chuong = ((string)inputManga.url).Remove(inputManga.url.Length - 1).Split('/').Last(),
                 selectTruyen = inputManga.selectedTruyen
             };
